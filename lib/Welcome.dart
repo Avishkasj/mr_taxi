@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Welcome extends StatefulWidget {
@@ -12,7 +11,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(114, 77, 243, 116),
+      backgroundColor: Colors.yellow[800],
       body: SafeArea(
         child: Container(
           child: Column(
@@ -55,9 +54,6 @@ class _WelcomeState extends State<Welcome> {
                   style: TextStyle(),
                 ),
               ),
-
-
-
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Container(
@@ -70,13 +66,13 @@ class _WelcomeState extends State<Welcome> {
                           child: Text(
                             "Login",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
                               width: 2.0, // set the border weight to 2.0
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                             fixedSize: Size(150, 50),
                           ),
@@ -86,20 +82,19 @@ class _WelcomeState extends State<Welcome> {
                           },
                         ),
                       ),
-
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: OutlinedButton(
                           child: Text(
                             "Register",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
                               width: 2.0, // set the border weight to 2.0
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                             fixedSize: Size(150, 50),
                           ),
