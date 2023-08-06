@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mr_taxi/Register.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -99,8 +100,8 @@ class _WelcomeState extends State<Welcome> {
                             fixedSize: Size(150, 50),
                           ),
                           onPressed: () {
-                            // Navigator.push(context,
-                            //     MaterialPageRoute(builder: (context) => MapSample()));
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Register()));
                           },
                         ),
                       ),

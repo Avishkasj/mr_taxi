@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "389381617036",
+    "project_id": "mr-taxi-3e9a1",
+    "storage_bucket": "mr-taxi-3e9a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389381617036:android:5541e8453ba7b5ba5c92a9",
+        "android_client_info": {
+          "package_name": "com.example.mr_taxi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389381617036-k44jdmbcmu45bkcuineu40jtfp141gm0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqjlRejPiitl5MJbeYFmPry9XCk0vs2eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389381617036-k44jdmbcmu45bkcuineu40jtfp141gm0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
