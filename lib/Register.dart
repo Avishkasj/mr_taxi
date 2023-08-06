@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,10 +12,8 @@ class Register extends StatefulWidget {
   _RegisterState createState() => _RegisterState();
 }
 
-
 class _RegisterState extends State<Register> {
   //for map
-
 
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
@@ -33,7 +30,6 @@ class _RegisterState extends State<Register> {
   TextEditingController mechanicEmailController = TextEditingController();
   TextEditingController mechanicPasswordController = TextEditingController();
   TextEditingController mechanicLocationController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +64,7 @@ class _RegisterState extends State<Register> {
           child: SizedBox(),
         ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.yellow[800],
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {
@@ -276,13 +272,12 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.all(25.0),
                 child: Text(
-                  "Mechanic",
+                  "Rider",
                   style: TextStyle(
                     fontSize: 30,
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 0,
               ),
@@ -308,7 +303,6 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 20,
               ),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
@@ -328,7 +322,6 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
-
               SizedBox(
                 height: 20,
               ),
@@ -398,18 +391,13 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 20,
               ),
-
               Container(
                   child: Column(
-                    children: <Widget>[
-                      SizedBox(height: 20),
-                      placesAutoCompleteTextField(),
-                    ],
-                  )
-              ),
-
-
-
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  placesAutoCompleteTextField(),
+                ],
+              )),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: OutlinedButton(
@@ -477,7 +465,8 @@ class _RegisterState extends State<Register> {
         address.isNotEmpty) {
       try {
         // Create a new customer document in Firestore
-        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        UserCredential userCredential =
+            await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -490,7 +479,7 @@ class _RegisterState extends State<Register> {
           'email': email,
           'role': "1",
           'address': address,
-          'uid' : uid,
+          'uid': uid,
         });
 
         // Register the user with Firebase Authentication
@@ -555,10 +544,10 @@ class _RegisterState extends State<Register> {
     String address = mechanicLocationController.text;
 
     if (name.isNotEmpty && age.isNotEmpty && mobile.isNotEmpty) {
-
       // Register the user with Firebase Authentication
 
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -571,11 +560,9 @@ class _RegisterState extends State<Register> {
         'mobile': mobile,
         'email': email,
         'role': "2",
-        'address' : address,
-        'uid' : uid,
+        'address': address,
+        'uid': uid,
       });
-
-
 
       // Navigate to the select page
       // Navigator.push(
@@ -604,7 +591,6 @@ class _RegisterState extends State<Register> {
     }
   }
 
-
   placesAutoCompleteTextField() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
@@ -624,8 +610,8 @@ class _RegisterState extends State<Register> {
             mechanicLocationController.selection = TextSelection.fromPosition(
                 TextPosition(offset: prediction.description!.length));
           }
-        // default 600 ms ,
-      ),
+          // default 600 ms ,
+          ),
     );
   }
 }
