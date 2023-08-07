@@ -17,6 +17,8 @@ class _RegisterState extends State<Register> {
 
   final PageController _pageController = PageController();
   int _currentPageIndex = 0;
+  List<String> vehicleList = ['car'];
+
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController customerMobileController = TextEditingController();
@@ -24,12 +26,12 @@ class _RegisterState extends State<Register> {
   TextEditingController customerEmailController = TextEditingController();
   TextEditingController customerAddressController = TextEditingController();
 
-  TextEditingController mechanicNameController = TextEditingController();
-  TextEditingController mechanicAgeController = TextEditingController();
-  TextEditingController mechanicMobileController = TextEditingController();
-  TextEditingController mechanicEmailController = TextEditingController();
-  TextEditingController mechanicPasswordController = TextEditingController();
-  TextEditingController mechanicLocationController = TextEditingController();
+  TextEditingController riderNameController = TextEditingController();
+  TextEditingController ridervehicletypeController = TextEditingController();
+  TextEditingController riderMobileController = TextEditingController();
+  TextEditingController riderEmailController = TextEditingController();
+  TextEditingController riderPasswordController = TextEditingController();
+  TextEditingController riderLocationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +39,14 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/bg1.jpg'),
-              fit: BoxFit.cover,
+        flexibleSpace: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 90, 20, 0),
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/logo2.png'),
+                fit: BoxFit.fitWidth,
+              ),
             ),
           ),
         ),
@@ -291,7 +296,7 @@ class _RegisterState extends State<Register> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      controller: mechanicEmailController,
+                      controller: riderEmailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'E-mail',
@@ -313,7 +318,7 @@ class _RegisterState extends State<Register> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      controller: mechanicPasswordController,
+                      controller: riderPasswordController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Password',
@@ -335,7 +340,7 @@ class _RegisterState extends State<Register> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      controller: mechanicNameController,
+                      controller: riderNameController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Name',
@@ -347,25 +352,26 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white30,
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      controller: mechanicAgeController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'Age',
-                      ),
-                    ),
-                  ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Container(
+            decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(12)),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: TextField(
+                controller: ridervehicletypeController,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Vehicle Type',
                 ),
               ),
+            ),
+          ),
+        ),
               SizedBox(
                 height: 20,
               ),
@@ -379,7 +385,7 @@ class _RegisterState extends State<Register> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
-                      controller: mechanicMobileController,
+                      controller: riderMobileController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Mobile No',
@@ -415,7 +421,7 @@ class _RegisterState extends State<Register> {
                     fixedSize: Size(150, 50),
                   ),
                   onPressed: () {
-                    _registerMechanic();
+                    _registerRider();
                   },
                 ),
               ),
@@ -535,15 +541,15 @@ class _RegisterState extends State<Register> {
     }
   }
 
-  void _registerMechanic() async {
-    String name = mechanicNameController.text;
-    String age = mechanicAgeController.text;
-    String mobile = mechanicMobileController.text;
-    String password = mechanicPasswordController.text;
-    String email = mechanicEmailController.text;
-    String address = mechanicLocationController.text;
+  void _registerRider() async {
+    String name = riderNameController.text;
+    String vtype = ridervehicletypeController.text;
+    String mobile = riderMobileController.text;
+    String password = riderPasswordController.text;
+    String email = riderEmailController.text;
+    String address = riderLocationController.text;
 
-    if (name.isNotEmpty && age.isNotEmpty && mobile.isNotEmpty) {
+    if (name.isNotEmpty && vtype.isNotEmpty && mobile.isNotEmpty) {
       // Register the user with Firebase Authentication
 
       UserCredential userCredential =
@@ -556,7 +562,7 @@ class _RegisterState extends State<Register> {
       String uid = userCredential.user!.uid;
       await FirebaseFirestore.instance.collection('user').add({
         'name': name,
-        'age': age,
+        'vtype': vtype,
         'mobile': mobile,
         'email': email,
         'role': "2",
@@ -595,7 +601,7 @@ class _RegisterState extends State<Register> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: GooglePlaceAutoCompleteTextField(
-          textEditingController: mechanicLocationController,
+          textEditingController: riderLocationController,
           googleAPIKey: "AIzaSyC_OcQXalmcP3E_f-ZNZp-CZMV6JgPAbWM",
           inputDecoration: InputDecoration(hintText: "Search your location"),
           debounceTime: 800,
@@ -605,9 +611,9 @@ class _RegisterState extends State<Register> {
             print("placeDetails" + prediction.lng.toString());
           },
           itemClick: (Prediction prediction) {
-            mechanicLocationController.text = prediction.description!;
+            riderLocationController.text = prediction.description!;
 
-            mechanicLocationController.selection = TextSelection.fromPosition(
+            riderLocationController.selection = TextSelection.fromPosition(
                 TextPosition(offset: prediction.description!.length));
           }
           // default 600 ms ,
@@ -615,3 +621,5 @@ class _RegisterState extends State<Register> {
     );
   }
 }
+
+
