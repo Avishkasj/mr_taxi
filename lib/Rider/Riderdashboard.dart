@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mr_taxi/Rider/Riderprofile.dart';
-import 'package:mr_taxi/Welcome.dart';
 
 void main() {
   runApp(MyApp());
@@ -31,8 +30,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
   int orderCount = 5;
   double currentAmount = 150.0;
   List<Map<String, dynamic>> orders = [
-    {'orderId': 1, 'details': 'Order details 1', 'status': 'Pending'},
-    {'orderId': 2, 'details': 'Order details 2', 'status': 'Completed'},
+    {'orderId': 1, 'details': 'Order details 1', 'status': 'Pending', 'customermobile': '076000000', 'cuslocation': 'kurunegala','droplocation':'colombo'},
+    {'orderId': 2, 'details': 'Order details 2', 'status': 'Completed', 'customermobile': '076000000', 'cuslocation': 'kurunegala','droplocation':'colombo'},
     // Add more orders here
   ];
 
@@ -79,7 +78,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                     subtitle: Text('Status: ${orders[index]['status']}'),
                     trailing: ElevatedButton(
                       onPressed: () {
-                        // Handle view order details and change status
+                        _showOrderDetailsModal(context, orders[index]);
                       },
                       child: Text('View Details'),
                     ),
@@ -120,18 +119,70 @@ class _RiderdashboardState extends State<Riderdashboard> {
               );
             },
           ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Welcome()),
-              );
-            },
-          ),
+          // Add more sidebar items as needed
         ],
       ),
+    );
+  }
+
+  void _showOrderDetailsModal(BuildContext context, Map<String, dynamic> order) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Ride Details:',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              Text('Order ID: ${order['orderId']}'),
+              Text('Status: ${order['status']}'),
+              Text('Customer Location: ${order['cuslocation']}'),
+              Text('Customer Drop Location: ${order['droplocation']}'),
+              Text('Cutomer Contact number: ${order['customermobile']}'),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle the first button action
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.blue, // Change the color as needed
+                      ),
+                      child: Text(
+                        'Cancle',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16), // Add some spacing between the buttons
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Handle the second button action
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.green, // Change the color as needed
+                      ),
+                      child: Text(
+                        'View On Map',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+
+            ],
+          ),
+        );
+      },
     );
   }
 }
