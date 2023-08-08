@@ -49,6 +49,7 @@ dependencies:
   google_places_flutter: ^2.0.5
   url_launcher: ^6.1.11
   firebase_app_check: ^0.1.5+1
+  image_picker: ^0.8.4+4
 
 dev_dependencies:
   flutter_test:
