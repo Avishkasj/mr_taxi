@@ -39,9 +39,56 @@ class _RiderprofileState extends State<Riderprofile> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+
+
+
+
+            SizedBox(
+              height: 20,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white30,
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: TextField(
+                    // controller: customerEmailController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'E-mail',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white30,
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: TextField(
+                    // controller: customerMobileController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Mobile No',
+                    ),
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 16.0),
             Row(
@@ -62,7 +109,7 @@ class _RiderprofileState extends State<Riderprofile> {
                               _imageFiles[i]!,
                               fit: BoxFit.cover,
                             )
-                                : Text('Upload Image $i'),
+                                : Text('Image $i'),
                           ),
                         ),
                       ),
