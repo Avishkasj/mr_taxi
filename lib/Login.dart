@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mr_taxi/Riderprofile.dart';
 
 import 'Customerdashboard.dart';
 
@@ -55,7 +56,7 @@ class _LoginState extends State<Login> {
           child: SizedBox(),
         ),
       ),
-      backgroundColor: Colors.yellow[800],
+      backgroundColor:  Color.fromRGBO(254, 206, 12, 1.0),
       body: SafeArea(
         child: Container(
           child: SingleChildScrollView(
@@ -187,11 +188,11 @@ class _LoginState extends State<Login> {
                               MaterialPageRoute(builder: (context) => Customerdashboard()),
                             );
                           } else if (role == '2') {
-                           // Navigator.push(
-                              //context,
-                              // MaterialPageRoute(
-                              //     builder: (context) => mechanic()),
-                            //);
+                           Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Riderprofile()),
+                            );
                           }
                         });
                       } on FirebaseAuthException catch (e) {

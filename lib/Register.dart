@@ -71,7 +71,7 @@ class _RegisterState extends State<Register> {
           child: SizedBox(),
         ),
       ),
-      backgroundColor: Colors.yellow[800],
+      backgroundColor:  Color.fromRGBO(254, 206, 12, 1.0),
       body: PageView(
         controller: _pageController,
         onPageChanged: (index) {

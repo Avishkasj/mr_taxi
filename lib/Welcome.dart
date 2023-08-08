@@ -14,7 +14,7 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[800],
+      backgroundColor:  Color.fromRGBO(254, 206, 12, 1.0),
       body: SafeArea(
         child: Container(
           child: Column(
@@ -43,7 +43,7 @@ class _WelcomeState extends State<Welcome> {
                 ),
               ),
               Text(
-                "Select Your Vehicle",
+                "Enjoy Your Ride",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
@@ -52,7 +52,7 @@ class _WelcomeState extends State<Welcome> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  "Lets's book your vehicle first you neetto register to the system Thnak you",
+                  "Let's book your vehicle. First, you need to register on the app. Thank you.",
                   textAlign: TextAlign.center,
                   style: TextStyle(),
                 ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Customerdashboard extends StatefulWidget {
-  const Customerdashboard({Key? key}) : super(key: key);
+class Riderprofile extends StatefulWidget {
+  const Riderprofile({Key? key}) : super(key: key);
 
   @override
-  State<Customerdashboard> createState() => _CustomerdashboardState();
+  State<Riderprofile> createState() => _RiderprofileState();
 }
 
-class _CustomerdashboardState extends State<Customerdashboard> {
+class _RiderprofileState extends State<Riderprofile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +15,7 @@ class _CustomerdashboardState extends State<Customerdashboard> {
         backgroundColor:  Color.fromRGBO(254, 206, 12, 1.0),
       ),
       body: Column(
-
+        children: [],
       ),
     );
   }
