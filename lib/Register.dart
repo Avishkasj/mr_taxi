@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 
+import 'Login.dart';
+
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
 
@@ -193,24 +195,24 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 20,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.white30,
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'ID No',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //         color: Colors.white30,
+              //         border: Border.all(color: Colors.black),
+              //         borderRadius: BorderRadius.circular(12)),
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 20.0),
+              //       child: TextField(
+              //         decoration: InputDecoration(
+              //           border: InputBorder.none,
+              //           hintText: 'ID No',
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: OutlinedButton(
@@ -488,17 +490,36 @@ class _RegisterState extends State<Register> {
           'uid': uid,
         });
 
-        // Register the user with Firebase Authentication
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: email, // Use the email as the username
-          password: password,
-        );
 
-        // Navigate to the select page
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => login()),
+
+        // Register the user with Firebase Authentication
+        // await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        //   email: email, // Use the email as the username
+        //   password: password,
         // );
+
+        // Show a success dialog before navigating to login
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Registration Successful'),
+              content: Text('Your registration has been successful.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
       } catch (e) {
         // Show an error message if registration fails
         showDialog(
@@ -556,6 +577,29 @@ class _RegisterState extends State<Register> {
           await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
+      );
+
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Registration Successful'),
+            content: Text('Your registration has been successful.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Login()),
+                  );
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
 
       // Create a new mechanic document in Firestore
