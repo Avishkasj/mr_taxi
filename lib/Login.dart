@@ -2,9 +2,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_taxi/Riderprofile.dart';
+import 'package:mr_taxi/Rider/Riderdashboard.dart';
+import 'package:mr_taxi/Rider/Riderprofile.dart';
 
-import 'Customerdashboard.dart';
+import 'Customer/Customerdashboard.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -182,6 +183,9 @@ class _LoginState extends State<Login> {
                           String role = data['role'] as String;
                           print('Role: $role');
 
+                          emailController.text="";
+                          passwordController.text="";
+
                           if (role == '1') {
                             Navigator.push(
                               context,
@@ -191,7 +195,7 @@ class _LoginState extends State<Login> {
                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Riderprofile()),
+                                  builder: (context) => Riderdashboard()),
                             );
                           }
                         });
