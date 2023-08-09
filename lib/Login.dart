@@ -193,6 +193,8 @@ class _LoginState extends State<Login> {
                               MaterialPageRoute(builder: (context) => Customermap()),
                             );
                           } else if (role == '2') {
+                            emailController.text ="";
+                            passwordController.text="";
                            Navigator.push(
                               context,
                               MaterialPageRoute(
