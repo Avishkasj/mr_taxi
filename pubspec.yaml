@@ -50,6 +50,9 @@ dependencies:
   url_launcher: ^6.1.11
   firebase_app_check: ^0.1.5+1
   image_picker: ^0.8.4+4
+  location: ^4.3.0
+  google_map_polyline_new: ^0.3.0+2
+
 
 dev_dependencies:
   flutter_test:

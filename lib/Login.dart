@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mr_taxi/Customer/Customermap.dart';
 import 'package:mr_taxi/Rider/Riderdashboard.dart';
 import 'package:mr_taxi/Rider/Riderprofile.dart';
 
@@ -189,7 +190,7 @@ class _LoginState extends State<Login> {
                           if (role == '1') {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Customerdashboard()),
+                              MaterialPageRoute(builder: (context) => Customermap()),
                             );
                           } else if (role == '2') {
                            Navigator.push(
