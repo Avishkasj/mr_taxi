@@ -247,7 +247,7 @@ class _CustomermapState extends State<Customermap> {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Color.fromRGBO(254, 206, 12, 1.0),
+              color: Color.fromRGBO(0, 0, 0, 1.0),
             ),
             child: Text(
               'Profile',
