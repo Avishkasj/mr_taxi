@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 
 class Vehicaldata extends StatefulWidget {
   const Vehicaldata({Key? key}) : super(key: key);
@@ -10,7 +12,10 @@ class Vehicaldata extends StatefulWidget {
 }
 
 class _VehicaldataState extends State<Vehicaldata> {
-  TextEditingController _nameController = TextEditingController();
+  TextEditingController _vehicleModelController = TextEditingController();
+  TextEditingController _vehicleBrandController = TextEditingController();
+  TextEditingController _chargesPerKmController = TextEditingController();
+  TextEditingController _aboutVehicleController = TextEditingController();
   List<File?> _imageFiles = [null, null, null];
 
   Future<void> _selectAndPreviewImage(int index) async {
@@ -22,10 +27,43 @@ class _VehicaldataState extends State<Vehicaldata> {
     }
   }
 
-  void _updateProfile() {
-    String newName = _nameController.text;
-    List<File?> newImageFiles = List.from(_imageFiles);
-    // Update the user profile using newName and newImageFiles
+  void _updateProfile() async {
+    String vehicleModel = _vehicleModelController.text;
+    String vehicleBrand = _vehicleBrandController.text;
+    String chargesPerKm = _chargesPerKmController.text;
+    String aboutVehicle = _aboutVehicleController.text;
+    FirebaseAuth _auth = FirebaseAuth.instance;
+
+    // Replace 'your_collection_name' with the actual name of the collection in Firestore
+    CollectionReference vehicleCollection = FirebaseFirestore.instance.collection('vehicle');
+    User? user = _auth.currentUser;
+    String? uid = user?.uid;
+
+    try {
+      await vehicleCollection.add({
+        'vehicleModel': vehicleModel,
+        'vehicleBrand': vehicleBrand,
+        'chargesPerKm': chargesPerKm,
+        'aboutVehicle': aboutVehicle,
+        'userId': uid, // Replace with the actual user ID
+        // You can also add image URLs if you upload the images to a storage service
+      });
+
+      // Clear the text fields and image files after saving
+      _vehicleModelController.clear();
+      _vehicleBrandController.clear();
+      _chargesPerKmController.clear();
+      _aboutVehicleController.clear();
+      setState(() {
+        _imageFiles = [null, null, null];
+      });
+
+      // Show a success message or navigate to another screen if needed
+      // e.g., ScaffoldMessenger.of(context).showSnackBar(...)
+    } catch (e) {
+      // Handle any errors that occur during saving
+      print('Error: $e');
+    }
   }
 
   @override
@@ -55,7 +93,7 @@ class _VehicaldataState extends State<Vehicaldata> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextFormField(
-                      // controller: customerEmailController,
+                      controller: _vehicleModelController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter Vehicle Model',
@@ -83,7 +121,7 @@ class _VehicaldataState extends State<Vehicaldata> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextFormField(
-                      // controller: customerEmailController,
+                       controller: _vehicleBrandController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Enter Vehicle Brand',
@@ -109,7 +147,7 @@ class _VehicaldataState extends State<Vehicaldata> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextFormField(
-                      // controller: customerEmailController,
+                       controller: _chargesPerKmController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Charges Per KM',
@@ -135,7 +173,7 @@ class _VehicaldataState extends State<Vehicaldata> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextFormField(
-                      // controller: textController,
+                       controller:  _aboutVehicleController,
                       maxLines: 4, // Adjust the number of visible lines
                       decoration: InputDecoration(
                         border: InputBorder.none,
@@ -178,7 +216,7 @@ class _VehicaldataState extends State<Vehicaldata> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: _updateProfile,
-                child: Text('Update'),
+                child: Text('Add'),
               ),
             ],
           ),
