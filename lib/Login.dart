@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_taxi/Customer/Customermap.dart';
 import 'package:mr_taxi/Rider/Riderdashboard.dart';
-import 'package:mr_taxi/Rider/Riderprofile.dart';
+import 'package:mr_taxi/Rider/Vehicaldata.dart';
 
 import 'Customer/Customerdashboard.dart';
 

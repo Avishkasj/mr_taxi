@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mr_taxi/Rider/Riderprofile.dart';
+import 'package:mr_taxi/Rider/Vehicaldata.dart';
 
 void main() {
   runApp(MyApp());
@@ -115,7 +115,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Riderprofile()),
+                MaterialPageRoute(builder: (context) => Vehicaldata()),
               );
             },
           ),
