@@ -250,12 +250,22 @@ class _CustomermapState extends State<Customermap> {
               color: Color.fromRGBO(254, 206, 12, 1.0),
             ),
             child: Text(
-              'Drawer Header',
+              'Profile',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 24,
               ),
             ),
+          ), ListTile(
+            title: Text('Account Details'),
+            onTap: () {
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Welcome()),
+              );
+              // Handle the option 1 action
+            },
           ),
           ListTile(
             title: Text('Logout'),
