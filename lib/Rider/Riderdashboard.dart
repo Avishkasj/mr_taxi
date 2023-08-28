@@ -79,6 +79,52 @@ class _RiderdashboardState extends State<Riderdashboard> {
               ],
             ),
             SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Colors.blueGrey,),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "View Vehicle Details",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(
+                            "You can edit vehicle details",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 130,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),color: Color.fromRGBO(254, 206, 12, 1.0),),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.car_rental,
+                          color: Colors.white,
+                          size: 70,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
             Text(
               ' Orders',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
