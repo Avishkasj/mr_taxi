@@ -69,18 +69,31 @@ class _RiderdashboardState extends State<Riderdashboard> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
+
             Expanded(
               child: ListView.builder(
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('Order ID: ${orders[index]['orderId']}'),
-                    subtitle: Text('Status: ${orders[index]['status']}'),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        _showOrderDetailsModal(context, orders[index]);
-                      },
-                      child: Text('View Details'),
+                  return Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.black,
+                      ),
+                      child: ListTile(
+                        title: Text('Order ID: ${orders[index]['orderId']}',style: TextStyle(color: Colors.white),),
+                        subtitle: Text('Status: ${orders[index]['status']}',style: TextStyle(color: Colors.white),),
+                        trailing: ElevatedButton(
+                          onPressed: () {
+                            _showOrderDetailsModal(context, orders[index]);
+                          },
+                          child: Text('View Details'),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.orange,
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 },
