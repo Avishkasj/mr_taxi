@@ -47,6 +47,23 @@ class _RiderdashboardState extends State<Riderdashboard> {
       'cuslocation': 'kurunegala',
       'droplocation': 'colombo'
     },
+    {
+      'orderId': 3,
+      'details': 'Order details 2',
+      'status': 'Completed',
+      'customermobile': '076000000',
+      'cuslocation': 'kurunegala',
+      'droplocation': 'colombo'
+    },
+    {
+      'orderId': 4,
+      'details': 'Order details 2',
+      'status': 'Completed',
+      'customermobile': '076000000',
+      'cuslocation': 'kurunegala',
+      'droplocation': 'colombo'
+    },
+
     // Add more orders here
   ];
 
@@ -102,7 +119,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                             "You can edit vehicle details",
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -135,7 +152,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.all(6.0),
+                    padding: const EdgeInsets.all(4.0),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
