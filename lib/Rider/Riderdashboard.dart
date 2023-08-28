@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
 
 void main() {
@@ -165,56 +166,80 @@ class _RiderdashboardState extends State<Riderdashboard> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Ride Details:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10),
-              Text('Order ID: ${order['orderId']}'),
-              Text('Status: ${order['status']}'),
-              Text('Customer Location: ${order['cuslocation']}'),
-              Text('Customer Drop Location: ${order['droplocation']}'),
-              Text('Cutomer Contact number: ${order['customermobile']}'),
-              SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle the first button action
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red, // Change the color as needed
-                      ),
-                      child: Text(
-                        'Cancle',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 16), // Add some spacing between the buttons
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Handle the second button action
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black, // Change the color as needed
-                      ),
-                      child: Text(
-                        'View On Map',
-                        style: TextStyle(fontSize: 16),
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Ride Details:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text('Order ID: ${order['orderId']}'),
+                Text('Status: ${order['status']}'),
+                Text('Customer Location: ${order['cuslocation']}'),
+                Text('Customer Drop Location: ${order['droplocation']}'),
+                Text('Customer Contact number: ${order['customermobile']}'),
+                SizedBox(height: 20),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle the first button action
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.red, // Change the color as needed
+                        ),
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 16), // Add some spacing between the buttons
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Handle the second button action
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.black, // Change the color as needed
+                        ),
+                        child: Text(
+                          'Accept',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Location on Map:',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 200, // Adjust the height as needed
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(6.9601, 79.9580), // Example coordinates
+                      zoom: 10.0,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId('customer_location'),
+                        position:
+                            LatLng(6.9601, 79.9580), // Kelaniya, Sri Lanka
+                      ),
+                    },
                   ),
-                ],
-              )
-            ],
+                ),
+              ],
+            ),
           ),
         );
       },
