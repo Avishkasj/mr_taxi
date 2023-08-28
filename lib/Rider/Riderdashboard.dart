@@ -30,8 +30,22 @@ class _RiderdashboardState extends State<Riderdashboard> {
   int orderCount = 5;
   double currentAmount = 150.0;
   List<Map<String, dynamic>> orders = [
-    {'orderId': 1, 'details': 'Order details 1', 'status': 'Pending', 'customermobile': '076000000', 'cuslocation': 'kurunegala','droplocation':'colombo'},
-    {'orderId': 2, 'details': 'Order details 2', 'status': 'Completed', 'customermobile': '076000000', 'cuslocation': 'kurunegala','droplocation':'colombo'},
+    {
+      'orderId': 1,
+      'details': 'Order details 1',
+      'status': 'Pending',
+      'customermobile': '076000000',
+      'cuslocation': 'kurunegala',
+      'droplocation': 'colombo'
+    },
+    {
+      'orderId': 2,
+      'details': 'Order details 2',
+      'status': 'Completed',
+      'customermobile': '076000000',
+      'cuslocation': 'kurunegala',
+      'droplocation': 'colombo'
+    },
     // Add more orders here
   ];
 
@@ -65,11 +79,10 @@ class _RiderdashboardState extends State<Riderdashboard> {
             ),
             SizedBox(height: 20),
             Text(
-              'Active of Orders:',
+              ' Orders',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-
             Expanded(
               child: ListView.builder(
                 itemCount: orders.length,
@@ -82,13 +95,22 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         color: Colors.black,
                       ),
                       child: ListTile(
-                        title: Text('Order ID: ${orders[index]['orderId']}',style: TextStyle(color: Colors.white),),
-                        subtitle: Text('Status: ${orders[index]['status']}',style: TextStyle(color: Colors.white),),
+                        title: Text(
+                          'Order ID: ${orders[index]['orderId']}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          'Status: ${orders[index]['status']}',
+                          style: TextStyle(color: Colors.white),
+                        ),
                         trailing: ElevatedButton(
                           onPressed: () {
                             _showOrderDetailsModal(context, orders[index]);
                           },
-                          child: Text('View Details',style: TextStyle(color: Colors.black),),
+                          child: Text(
+                            'View Details',
+                            style: TextStyle(color: Colors.black),
+                          ),
                           style: ElevatedButton.styleFrom(
                             primary: Color.fromRGBO(254, 206, 12, 1.0),
                           ),
@@ -138,7 +160,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
     );
   }
 
-  void _showOrderDetailsModal(BuildContext context, Map<String, dynamic> order) {
+  void _showOrderDetailsModal(
+      BuildContext context, Map<String, dynamic> order) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -166,7 +189,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         // Handle the first button action
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue, // Change the color as needed
+                        primary: Colors.red, // Change the color as needed
                       ),
                       child: Text(
                         'Cancle',
@@ -181,7 +204,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         // Handle the second button action
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.green, // Change the color as needed
+                        primary: Colors.black, // Change the color as needed
                       ),
                       child: Text(
                         'View On Map',
@@ -191,7 +214,6 @@ class _RiderdashboardState extends State<Riderdashboard> {
                   ),
                 ],
               )
-
             ],
           ),
         );
