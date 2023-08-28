@@ -39,7 +39,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(254, 206, 12, 1.0),
+        backgroundColor: Colors.black,
         title: Text('Rider Dashboard'),
       ),
       drawer: _buildSidebarDrawer(),
@@ -54,18 +54,18 @@ class _RiderdashboardState extends State<Riderdashboard> {
                 _DashboardTile(
                   title: 'Order Count',
                   value: '$orderCount',
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                 ),
                 _DashboardTile(
                   title: 'Current Amount',
                   value: '\$${currentAmount.toStringAsFixed(2)}',
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.black,
                 ),
               ],
             ),
             SizedBox(height: 20),
             Text(
-              'List of Orders:',
+              'Active of Orders:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
@@ -88,9 +88,9 @@ class _RiderdashboardState extends State<Riderdashboard> {
                           onPressed: () {
                             _showOrderDetailsModal(context, orders[index]);
                           },
-                          child: Text('View Details'),
+                          child: Text('View Details',style: TextStyle(color: Colors.black),),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
+                            primary: Color.fromRGBO(254, 206, 12, 1.0),
                           ),
                         ),
                       ),
@@ -112,7 +112,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Color.fromRGBO(254, 206, 12, 1.0),
+              color: Colors.black,
             ),
             child: Text(
               'Menu',
