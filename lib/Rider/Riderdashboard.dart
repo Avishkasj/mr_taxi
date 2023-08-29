@@ -109,7 +109,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "View Vehicle Details",
+                            "Vehicle Details",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
