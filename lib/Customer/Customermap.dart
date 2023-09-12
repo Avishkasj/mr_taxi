@@ -333,8 +333,8 @@ class _MyCardState extends State<MyCard> {
             itemCount: documents.length, // Adjust the number of cards based on Firestore data
             itemBuilder: (context, index) {
               // Access data from Firestore document
-              Map<String, dynamic> vehicleData = documents[index].data() as Map<String, dynamic>;
-
+              Map<String, dynamic> vehicleData =
+              documents[index].data() as Map<String, dynamic>;
 
               return Container(
                 width: 130,
@@ -348,18 +348,57 @@ class _MyCardState extends State<MyCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
+                    Text('${vehicleData['vehicleModel']}'),
                     // Replace 'image_url' with the field containing the image URL in your Firestore document
+                    Container(
+                      height: 80,
+                      width: 100,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(0),
+                        image: DecorationImage(
+                          image: AssetImage('assets/car2.png'), // Replace with actual image path
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
 
 
-
-
-
-                   // Image.network(vehicleData['image_url'], width: 100, height: 80),
-
-
-                    Text('Vehicle Name: ${vehicleData['vehicleModel']}'),
-                    SizedBox(height: 5),
                     Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                    SizedBox(height: 5),
+
+
+                    Container(
+                      color: Colors.yellow,
+                      width: 120,
+                      height: 30,
+                      child: Center(
+                        child: GestureDetector(
+                            onTap: () {
+                              // Show a modal with additional details when the card is tapped
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) {
+                                  return Container(
+                                    // Customize the modal content here
+                                    child: Column(
+                                      children: [
+                                        Text('Additional Details'),
+                                        Text('Model: ${vehicleData['vehicleModel']}'),
+                                        Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                                        Text('Brand ${vehicleData['vehicleBrand']}'),
+                                        Text('Owner ${vehicleData['userId']}'),
+                                        Text('About ${vehicleData['aboutVehicle']}'),
+                                        // Add more details as needed
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Text("More"),),
+                      ),
+                    ),
                   ],
                 ),
               );
@@ -370,6 +409,7 @@ class _MyCardState extends State<MyCard> {
     );
   }
 }
+
 
 
 double calculateDistance(List<LatLng> routePoints) {
