@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -301,68 +302,75 @@ void main() {
 
 
 //vehicval cards
+
 class MyCard extends StatefulWidget {
   @override
   _MyCardState createState() => _MyCardState();
 }
 
 class _MyCardState extends State<MyCard> {
-  int selectedCardIndex = -1;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 3,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 5, // Adjust the number of cards
-        itemBuilder: (context, index) {
-          bool isSelected = index == selectedCardIndex;
+      child: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('vehicle').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator(); // Loading indicator while data is being fetched
+          }
 
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedCardIndex = isSelected ? -1 : index;
-              });
-            },
-            child: SingleChildScrollView(
-              child: Container(
+          // Ensure that snapshot.data is not null
+          if (snapshot.data == null) {
+            return Text('No data available'); // Handle the case when there's no data
+          }
+
+          // Retrieve documents from Firestore
+          List<DocumentSnapshot> documents = snapshot.data!.docs;
+
+          return ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: documents.length, // Adjust the number of cards based on Firestore data
+            itemBuilder: (context, index) {
+              // Access data from Firestore document
+              Map<String, dynamic> vehicleData = documents[index].data() as Map<String, dynamic>;
+
+
+              return Container(
                 width: 130,
-                height: 160,// Width of each card
+                height: 160,
                 margin: EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
-                  color: isSelected ? Colors.yellow : Colors.white,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: 80,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/car2.png'), // Replace with actual image path
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ),
-                    Text('Vehicle Name ${index + 1}'),
+                    // Replace 'image_url' with the field containing the image URL in your Firestore document
+
+
+
+
+
+                   // Image.network(vehicleData['image_url'], width: 100, height: 80),
+
+
+                    Text('Vehicle Name: ${vehicleData['vehicleModel']}'),
                     SizedBox(height: 5),
-                    Text('Per KM: RS 1500'), // Replace with actual charge
+                    Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
                   ],
                 ),
-              ),
-            ),
+              );
+            },
           );
         },
       ),
     );
   }
 }
+
 
 double calculateDistance(List<LatLng> routePoints) {
   double totalDistance = 0.0;
