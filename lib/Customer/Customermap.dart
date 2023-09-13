@@ -21,6 +21,7 @@ class Customermap extends StatefulWidget {
 
 class _CustomermapState extends State<Customermap> {
   var selectedCardData;
+  var toatalamount;
   LatLng? currentLocation;
   LatLng? searchLocation;
   List<LatLng> polygonPoints = [];
@@ -231,6 +232,10 @@ class _CustomermapState extends State<Customermap> {
                     context,
                     MaterialPageRoute(builder: (context) => Orderview(
                       selectedCardData: selectedCardData,
+                      currentLocation: currentLocation,
+                      searchLocation: searchLocation,
+                      formattedDistance : formattedDistance,
+
                       // km: 40,
                     )),
                   );
@@ -359,6 +364,8 @@ class _MyCardState extends State<MyCard> {
 
               return GestureDetector(
                 onTap: () {
+
+
                   // Pass the selected card data to the callback function
                   widget.onCardSelected(vehicleData);
                 },
@@ -392,6 +399,7 @@ class _MyCardState extends State<MyCard> {
                       GestureDetector(
                         child: GestureDetector(
                           onTap: () {
+
                             // Pass the selected card data to the callback function
                             showModalBottomSheet(
                               context: context,
@@ -406,6 +414,7 @@ class _MyCardState extends State<MyCard> {
                                       Text('Brand ${vehicleData['vehicleBrand']}'),
                                       Text('Owner ${vehicleData['userId']}'),
                                       Text('About ${vehicleData['aboutVehicle']}'),
+
                                       // Add more details as needed
                                     ],
                                   ),
