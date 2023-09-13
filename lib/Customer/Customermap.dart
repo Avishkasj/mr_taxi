@@ -4,6 +4,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:mr_taxi/Customer/Orderview.dart';
 import 'dart:math';
 
 import 'package:mr_taxi/Welcome.dart';
@@ -19,6 +20,7 @@ class Customermap extends StatefulWidget {
 }
 
 class _CustomermapState extends State<Customermap> {
+  var selectedCardData;
   LatLng? currentLocation;
   LatLng? searchLocation;
   List<LatLng> polygonPoints = [];
@@ -208,7 +210,13 @@ class _CustomermapState extends State<Customermap> {
           ),
 
 
-          MyCard(),
+          MyCard(
+            onCardSelected: (data) {
+              setState(() {
+                selectedCardData = data;
+              });
+            },
+          ),
 
 
           Padding(
@@ -218,6 +226,15 @@ class _CustomermapState extends State<Customermap> {
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
+                  print("object");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Orderview(
+                      selectedCardData: selectedCardData,
+                      // km: 40,
+                    )),
+                  );
+
                   // currentLocation = null;
                   // searchLocation = null;
                   // polygonPoints.clear();
@@ -304,6 +321,10 @@ void main() {
 //vehicval cards
 
 class MyCard extends StatefulWidget {
+  final void Function(Map<String, dynamic> selectedCardData) onCardSelected;
+
+  MyCard({required this.onCardSelected});
+
   @override
   _MyCardState createState() => _MyCardState();
 }
@@ -336,70 +357,74 @@ class _MyCardState extends State<MyCard> {
               Map<String, dynamic> vehicleData =
               documents[index].data() as Map<String, dynamic>;
 
-              return Container(
-                width: 130,
-                height: 160,
-                margin: EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                    Text('${vehicleData['vehicleModel']}'),
-                    // Replace 'image_url' with the field containing the image URL in your Firestore document
-                    Container(
-                      height: 80,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/car2.png'), // Replace with actual image path
-                          fit: BoxFit.fitWidth,
+              return GestureDetector(
+                onTap: () {
+                  // Pass the selected card data to the callback function
+                  widget.onCardSelected(vehicleData);
+                },
+                child: Container(
+                  width: 130,
+                  height: 160,
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${vehicleData['vehicleModel']}'),
+                      // Replace 'image_url' with the field containing the image URL in your Firestore document
+                      Container(
+                        height: 80,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/car2.png'), // Replace with actual image path
+                            fit: BoxFit.fitWidth,
+                          ),
                         ),
                       ),
-                    ),
-
-
-                    Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
-                    SizedBox(height: 5),
-
-
-                    Container(
-                      color: Colors.yellow,
-                      width: 120,
-                      height: 30,
-                      child: Center(
+                      Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                      SizedBox(height: 5),
+                      GestureDetector(
                         child: GestureDetector(
-                            onTap: () {
-                              // Show a modal with additional details when the card is tapped
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    // Customize the modal content here
-                                    child: Column(
-                                      children: [
-                                        Text('Additional Details'),
-                                        Text('Model: ${vehicleData['vehicleModel']}'),
-                                        Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
-                                        Text('Brand ${vehicleData['vehicleBrand']}'),
-                                        Text('Owner ${vehicleData['userId']}'),
-                                        Text('About ${vehicleData['aboutVehicle']}'),
-                                        // Add more details as needed
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Text("More"),),
+                          onTap: () {
+                            // Pass the selected card data to the callback function
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  // Customize the modal content here
+                                  child: Column(
+                                    children: [
+                                      Text('Additional Details'),
+                                      Text('Model: ${vehicleData['vehicleModel']}'),
+                                      Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                                      Text('Brand ${vehicleData['vehicleBrand']}'),
+                                      Text('Owner ${vehicleData['userId']}'),
+                                      Text('About ${vehicleData['aboutVehicle']}'),
+                                      // Add more details as needed
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            color: Colors.yellow,
+                            width: 120,
+                            height: 30,
+                            child: Center(
+                              child: Text("More"),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
