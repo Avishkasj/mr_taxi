@@ -104,7 +104,7 @@ class _OrderviewState extends State<Orderview> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Container(
-                color: Colors.yellow,
+                color: Color.fromRGBO(254, 206, 12, 1.0),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -180,14 +180,14 @@ class _OrderviewState extends State<Orderview> {
                         borderRadius: BorderRadius.circular(5),
                       ),
                       height: 100,
-                      width: 190,
+                      width: 160,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Toatal Amount RS:  $totalAmount',
+                              'Toatal RS:  $totalAmount',
                               style: TextStyle(fontSize: 22,color: Colors.black), // Add your desired style
                             ),
                           ),
