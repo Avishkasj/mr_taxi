@@ -100,7 +100,7 @@ class _OrderviewState extends State<Orderview> {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Container(
                 color: Colors.yellow,
                 child: Row(
@@ -143,42 +143,52 @@ class _OrderviewState extends State<Orderview> {
             ),
 
 
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'vehicleModel ${widget.selectedCardData['vehicleModel']}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Brand ${widget.selectedCardData['vehicleBrand']}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Per KM: RS ${widget.selectedCardData['chargesPerKm']}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Driver ${widget.selectedCardData['userId']}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Current Location ${widget.currentLocation}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Search Location ${widget.searchLocation}',
+                      style: TextStyle(fontSize: 18,color: Colors.white),// Add your desired style
+                    ),
+                    Text(
+                      'Distance ${widget.formattedDistance}',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                    Text(
+                      'Toatal Amount RS:  $totalAmount',
+                      style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
-
-            Text(
-              'vehicleModel ${widget.selectedCardData['vehicleModel']}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Brand ${widget.selectedCardData['vehicleBrand']}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Per KM: RS ${widget.selectedCardData['chargesPerKm']}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Driver ${widget.selectedCardData['userId']}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Current Location ${widget.currentLocation}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Search Location ${widget.searchLocation}',
-              style: TextStyle(fontSize: 18,color: Colors.white),// Add your desired style
-            ),
-            Text(
-              'Distance ${widget.formattedDistance}',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
-            Text(
-              'Toatal Amount RS:  $totalAmount',
-              style: TextStyle(fontSize: 18,color: Colors.white), // Add your desired style
-            ),
 
           ],
+
         ),
       ),
     );
