@@ -119,7 +119,7 @@ class _OrderviewState extends State<Orderview> {
                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Please Wait . . .',
+                                        'Please Wait d. . .',
                                         style: TextStyle(fontSize: 24, ),
                                         // Add your desired style
                                       ),
