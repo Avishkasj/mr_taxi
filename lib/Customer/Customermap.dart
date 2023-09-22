@@ -227,6 +227,32 @@ class _CustomermapState extends State<Customermap> {
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
+                  // Create a map with the order data
+                  Map<String, dynamic> orderData = {
+                    'selectedCardData': selectedCardData.toString(),
+                     'currentLocation': currentLocation.toString(),
+                    'searchLocation': searchLocation.toString(),
+                    'Distance': formattedDistance,
+                    'uid':selectedCardData['userId'],
+                    'Status': "pending",
+                    // 'chargesPerKm': chargesPerKm, // Make sure chargesPerKm is defined and initialized
+                  };
+
+                  // Add this data to Firestore
+                  FirebaseFirestore.instance
+                      .collection('orders') // Change 'orders' to the desired collection name
+                      .add(orderData)
+                      .then((value) {
+                    // Successfully added data to Firestore
+                    print("---------------------------------------------------------------------------");
+                    print('Order data added to Firestore!');
+                  }).catchError((error) {
+                    // Handle errors here
+                    print("---------------------------------------------------------------------------");
+                    print('Error adding order data to Firestore: $error');
+                  });
+
+
                   print("object");
                   Navigator.push(
                     context,
@@ -239,12 +265,6 @@ class _CustomermapState extends State<Customermap> {
                       // km: 40,
                     )),
                   );
-
-                  // currentLocation = null;
-                  // searchLocation = null;
-                  // polygonPoints.clear();
-                  // polylines.clear();
-                  // setState(() {});
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.yellow, // Set the background color to yellow
