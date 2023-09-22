@@ -45,18 +45,12 @@ class _WelcomeState extends State<Welcome> {
               Text(
                 "Enjoy Your Ride",
                 style: TextStyle(
+
                   fontSize: 30,
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "Let's book your vehicle. First, you need to register on the app. Thank you.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(),
-                ),
-              ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: Container(
@@ -75,7 +69,7 @@ class _WelcomeState extends State<Welcome> {
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
                               width: 2.0, // set the border weight to 2.0
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                             fixedSize: Size(150, 50),
                           ),
@@ -97,7 +91,7 @@ class _WelcomeState extends State<Welcome> {
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
                               width: 2.0, // set the border weight to 2.0
-                              color: Colors.black,
+                              color: Colors.white,
                             ),
                             fixedSize: Size(150, 50),
                           ),
@@ -107,10 +101,22 @@ class _WelcomeState extends State<Welcome> {
                           },
                         ),
                       ),
+
+
                     ],
                   ),
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  "Let's book your vehicle. First, you need to register on the app. Thank you.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+
+                  ),
+                ),
+              ),
             ],
           ),
         ),

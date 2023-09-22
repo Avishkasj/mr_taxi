@@ -39,13 +39,13 @@ class _LoginState extends State<Login> {
             ),
           ),
         ),
-        title: Text(
-          "Welcome",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-          ),
-        ),
+        // title: Text(
+        //   "Welcome",
+        //   style: TextStyle(
+        //     color: Colors.white,
+        //     fontSize: 30,
+        //   ),
+        // ),
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

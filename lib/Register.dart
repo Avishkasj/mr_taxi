@@ -111,9 +111,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -133,9 +133,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -155,9 +155,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -177,9 +177,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -292,9 +292,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -314,9 +314,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -336,9 +336,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -359,9 +359,9 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.symmetric(horizontal: 25.0),
           child: Container(
             decoration: BoxDecoration(
-                color: Colors.white30,
+                color: Colors.white,
                 border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(8)),
             child: Padding(
               padding: const EdgeInsets.only(left: 20.0),
               child: TextField(
@@ -381,9 +381,9 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white30,
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(12)),
+                      borderRadius: BorderRadius.circular(8)),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
@@ -402,7 +402,7 @@ class _RegisterState extends State<Register> {
               Container(
                   child: Column(
                 children: <Widget>[
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   placesAutoCompleteTextField(),
                 ],
               )),
