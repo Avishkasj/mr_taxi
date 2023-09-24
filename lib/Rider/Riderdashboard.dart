@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
 
 void main() {
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -19,53 +21,57 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
 class Riderdashboard extends StatefulWidget {
   const Riderdashboard({Key? key}) : super(key: key);
 
+
   @override
   State<Riderdashboard> createState() => _RiderdashboardState();
+
 }
 
+
+
 class _RiderdashboardState extends State<Riderdashboard> {
+
+  @override
+  void initState() {
+    super.initState();
+    fetchOrders(); // Fetch orders when the widget is initialized
+  }
+
   // Sample data for demonstration
   int orderCount = 5;
   double currentAmount = 150.0;
-  List<Map<String, dynamic>> orders = [
-    {
-      'orderId': 1,
-      'details': 'Order details 1',
-      'status': 'Pending',
-      'customermobile': '076000000',
-      'cuslocation': 'kurunegala',
-      'droplocation': 'colombo'
-    },
-    {
-      'orderId': 2,
-      'details': 'Order details 2',
-      'status': 'Completed',
-      'customermobile': '076000000',
-      'cuslocation': 'kurunegala',
-      'droplocation': 'colombo'
-    },
-    {
-      'orderId': 3,
-      'details': 'Order details 2',
-      'status': 'Completed',
-      'customermobile': '076000000',
-      'cuslocation': 'kurunegala',
-      'droplocation': 'colombo'
-    },
-    {
-      'orderId': 4,
-      'details': 'Order details 2',
-      'status': 'Completed',
-      'customermobile': '076000000',
-      'cuslocation': 'kurunegala',
-      'droplocation': 'colombo'
-    },
+  List<Map<String, dynamic>> orders = [];
+
+
+
+  // Function to fetch data from Firestore
+  Future<void> fetchOrders() async {
+    final QuerySnapshot<Map<String, dynamic>> snapshot =
+    await FirebaseFirestore.instance.collection('orders').get();
+
+    final List<Map<String, dynamic>> fetchedOrders = [];
+
+    snapshot.docs.forEach((doc) {
+      fetchedOrders.add(doc.data());
+    });
+
+    setState(() {
+      orders = fetchedOrders;
+      print("-----------------OK--------------------------");
+    });
 
     // Add more orders here
-  ];
+  }
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -162,49 +168,59 @@ class _RiderdashboardState extends State<Riderdashboard> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: orders.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(6),
-                        color: Colors.black,
+
+
+
+        Expanded(
+          child: ListView.builder(
+            itemCount: orders.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
+                    color: Colors.black,
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      'Order ID: ${orders[index]['Distance']}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    subtitle: Text(
+                      'Status: ${orders[index]['Status']}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        _showOrderDetailsModal(context, orders[index]);
+                      },
+                      child: Text(
+                        'View Details',
+                        style: TextStyle(color: Colors.black),
                       ),
-                      child: ListTile(
-                        title: Text(
-                          'Order ID: ${orders[index]['orderId']}',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          'Status: ${orders[index]['status']}',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        trailing: ElevatedButton(
-                          onPressed: () {
-                            _showOrderDetailsModal(context, orders[index]);
-                          },
-                          child: Text(
-                            'View Details',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromRGBO(254, 206, 12, 1.0),
-                          ),
-                        ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(254, 206, 12, 1.0),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+
+
+
           ],
         ),
       ),
     );
   }
+
+
+
+
 
   Widget _buildSidebarDrawer() {
     return Drawer(
@@ -255,8 +271,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
-                Text('Order ID: ${order['orderId']}'),
-                Text('Status: ${order['status']}'),
+                Text('Diatance: ${order['Distance']}'),
+                Text('Status: ${order['Status']}'),
                 Text('Customer Location: ${order['cuslocation']}'),
                 Text('Customer Drop Location: ${order['droplocation']}'),
                 Text('Customer Contact number: ${order['customermobile']}'),
