@@ -1,6 +1,9 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mr_taxi/Customer/MapViewPage.dart';
 
 class Orderview extends StatefulWidget {
   final Map<String, dynamic> selectedCardData;
@@ -98,45 +101,151 @@ class _OrderviewState extends State<Orderview> {
                 ),
               ),
             ),
+            SizedBox(height: 10,),
 
+            Center(
+              child: OutlinedButton(
+                child: Text(
+                  "View My Driver",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(
+                    width: 2.0, // set the border weight to 2.0
+                    color: Colors.white,
+                  ),
+                  fixedSize: Size(350, 50),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MapViewPage()),
+                  );
+                },
+              ),
+            ),
+
+
+
+            // Padding(
+            //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            //   child: Container(
+            //     color: Color.fromRGBO(254, 206, 12, 1.0),
+            //     child: Row(
+            //       children: <Widget>[
+            //         Expanded(
+            //           child: Row(
+            //             children: [
+            //               Icon(Icons.add_task_rounded,size: 60,),
+            //               Container(
+            //                 child: Padding(
+            //                   padding: const EdgeInsets.all(8.0),
+            //                   child: Center(
+            //                     child: Padding(
+            //                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            //                       child: Column(
+            //                        crossAxisAlignment: CrossAxisAlignment.start,
+            //                         children: [
+            //                           Text(
+            //                             'Please Wait d. . .',
+            //                             style: TextStyle(fontSize: 24, ),
+            //                             // Add your desired style
+            //                           ),
+            //                           Text(
+            //                             'Waiting For Driver Accept',
+            //                             style: TextStyle(fontSize: 18, ),
+            //                             // Add your desired style
+            //                           ),
+            //                         ],
+            //                       ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
 
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: const EdgeInsets.all(8.0),
               child: Container(
-                color: Color.fromRGBO(254, 206, 12, 1.0),
                 child: Row(
-                  children: <Widget>[
+                  children: [
                     Expanded(
-                      child: Row(
-                        children: [
-                          Icon(Icons.add_task_rounded,size: 60,),
-                          Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child: Column(
-                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Please Wait d. . .',
-                                        style: TextStyle(fontSize: 24, ),
-                                        // Add your desired style
-                                      ),
-                                      Text(
-                                        'Waiting For Driver Accept',
-                                        style: TextStyle(fontSize: 18, ),
-                                        // Add your desired style
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
+                          height: 120,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.location_on,
+                                size: 40,
+                                color: Colors.blue,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Per KM: RS ${widget.selectedCardData['chargesPerKm']}',
+                                style: TextStyle(fontSize: 20, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          height: 120,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.attach_money,
+                                size: 40,
+                                color: Colors.green,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Total RS:  $totalAmount',
+                                style: TextStyle(fontSize: 20, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -145,62 +254,7 @@ class _OrderviewState extends State<Orderview> {
             ),
 
 
-            Container(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 10, 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: 100,
-                      width: 140,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Per KM: RS ${widget.selectedCardData['chargesPerKm']}',
-                              style: TextStyle(fontSize: 22,color: Colors.black), // Add your desired style
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
 
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 20, 20, 20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      height: 100,
-                      width: 160,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Toatal RS:  $totalAmount',
-                              style: TextStyle(fontSize: 22,color: Colors.black), // Add your desired style
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-
-                ],
-              ),
-
-            ),
 
 
             Container(

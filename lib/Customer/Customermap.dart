@@ -227,30 +227,43 @@ class _CustomermapState extends State<Customermap> {
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
-                  // Create a map with the order data
-                  Map<String, dynamic> orderData = {
-                    'selectedCardData': selectedCardData.toString(),
-                     'currentLocation': currentLocation.toString(),
-                    'searchLocation': searchLocation.toString(),
-                    'Distance': formattedDistance,
-                    'uid':selectedCardData['userId'],
-                    'Status': "pending",
-                    // 'chargesPerKm': chargesPerKm, // Make sure chargesPerKm is defined and initialized
-                  };
+                  if (currentLocation != null && searchLocation != null) {
+                    GeoPoint currentLocationGeoPoint = GeoPoint(
+                      currentLocation!.latitude,
+                      currentLocation!.longitude,
+                    );
+                    GeoPoint searchLocationGeoPoint = GeoPoint(
+                      searchLocation!.latitude,
+                      searchLocation!.longitude,
+                    );
 
-                  // Add this data to Firestore
-                  FirebaseFirestore.instance
-                      .collection('orders') // Change 'orders' to the desired collection name
-                      .add(orderData)
-                      .then((value) {
-                    // Successfully added data to Firestore
-                    print("---------------------------------------------------------------------------");
-                    print('Order data added to Firestore!');
-                  }).catchError((error) {
-                    // Handle errors here
-                    print("---------------------------------------------------------------------------");
-                    print('Error adding order data to Firestore: $error');
-                  });
+                    // Create a map with the order data
+                    Map<String, dynamic> orderData = {
+                      'selectedCardData': selectedCardData.toString(),
+                      'currentLocation': currentLocationGeoPoint, // Save currentLocation as a GeoPoint
+                      'searchLocation': searchLocationGeoPoint,   // Save searchLocation as a GeoPoint
+                      'Distance': formattedDistance,
+                      'uid': selectedCardData['userId'],
+                      'Status': "pending",
+                    };
+
+                    // Add this data to Firestore
+                    FirebaseFirestore.instance
+                        .collection('orders') // Change 'orders' to the desired collection name
+                        .add(orderData)
+                        .then((value) {
+                      // Successfully added data to Firestore
+                      print("---------------------------------------------------------------------------");
+                      print('Order data added to Firestore!');
+                    }).catchError((error) {
+                      // Handle errors here
+                      print("---------------------------------------------------------------------------");
+                      print('Error adding order data to Firestore: $error');
+                    });
+                  } else {
+                    // Handle the case where currentLocation or searchLocation is null
+                    print('currentLocation or searchLocation is null.');
+                  }
 
 
                   print("object");
@@ -281,6 +294,7 @@ class _CustomermapState extends State<Customermap> {
       ),
     );
   }
+
 
   //Drower
   Widget _buildDrawer() {

@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -33,14 +36,14 @@ class Riderdashboard extends StatefulWidget {
 }
 
 
-
 class _RiderdashboardState extends State<Riderdashboard> {
-
   @override
   void initState() {
     super.initState();
     fetchOrders(); // Fetch orders when the widget is initialized
   }
+
+
 
   // Sample data for demonstration
   int orderCount = 5;
@@ -48,9 +51,9 @@ class _RiderdashboardState extends State<Riderdashboard> {
   List<Map<String, dynamic>> orders = [];
 
 
-
   // Function to fetch data from Firestore
   Future<void> fetchOrders() async {
+
     final QuerySnapshot<Map<String, dynamic>> snapshot =
     await FirebaseFirestore.instance.collection('orders').get();
 
@@ -62,12 +65,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
     setState(() {
       orders = fetchedOrders;
-      print("-----------------OK--------------------------");
     });
-
-    // Add more orders here
   }
-
 
 
 
@@ -171,44 +170,79 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
 
 
-        Expanded(
-          child: ListView.builder(
-            itemCount: orders.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    color: Colors.black,
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      'Order ID: ${orders[index]['Distance']}',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    subtitle: Text(
-                      'Status: ${orders[index]['Status']}',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        _showOrderDetailsModal(context, orders[index]);
-                      },
-                      child: Text(
-                        'View Details',
-                        style: TextStyle(color: Colors.black),
+            Expanded(
+              child: ListView.builder(
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final uid = orders[index]['uid'];
+                  final status = orders[index]['Status'];
+
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        color: Colors.black,
                       ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Color.fromRGBO(254, 206, 12, 1.0),
+                      child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('user')
+                            .where('uid', isEqualTo: uid)
+                            .snapshots(),
+                        builder: (context, userSnapshot) {
+                          if (userSnapshot.connectionState == ConnectionState.waiting) {
+                            return ListTile(
+                              title: Text('Loading...'),
+                            );
+                          }
+
+                          if (!userSnapshot.hasData || userSnapshot.data == null) {
+                            return ListTile(
+                              title: Text('User data not available'),
+                            );
+                          }
+
+                          final userDocs = userSnapshot.data!.docs;
+
+                          if (userDocs.isEmpty) {
+                            return ListTile(
+                              title: Text('User not found'),
+                            );
+                          }
+
+                          final userData = userDocs[0].data() as Map<String, dynamic>;
+                          final username = userData['name'];
+                          final usermobile = userData['mobile'];
+
+                          return ListTile(
+                            title: Text('Customer name: $username',style: TextStyle(color: Colors.white),), // Display the username
+                            subtitle: Text('Status: $status',style: TextStyle(color: Colors.white),),
+                            trailing: ElevatedButton(
+                              onPressed: () {
+                                _showOrderDetailsModal(context, orders[index], (newStatus) {
+                                  // Update the status to "ok" here using the newStatus variable
+                                  setState(() {
+                                    orders[index]['Status'] = newStatus;
+                                    print("++++++++++++++++++++Status updated+++++++++++++++++++++++++++++++++++++");
+                                  });
+                                });
+                              },
+                              child: Text(
+                                'View Details',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromRGBO(254, 206, 12, 1.0),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
+                  );
+                },
+              ),
+            ),
 
 
 
@@ -255,8 +289,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
     );
   }
 
-  void _showOrderDetailsModal(
-      BuildContext context, Map<String, dynamic> order) {
+  void _showOrderDetailsModal(BuildContext context, Map<String, dynamic> order, Function(String) updateStatus) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -271,10 +304,10 @@ class _RiderdashboardState extends State<Riderdashboard> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
-                Text('Diatance: ${order['Distance']}'),
+                Text('Distance: ${order['Distance']}'),
                 Text('Status: ${order['Status']}'),
-                Text('Customer Location: ${order['cuslocation']}'),
-                Text('Customer Drop Location: ${order['droplocation']}'),
+                Text('Customer Location: ${order['currentLocation']}'),
+                Text('Customer Drop Location: ${order['searchLocation']}'),
                 Text('Customer Contact number: ${order['customermobile']}'),
                 SizedBox(height: 20),
                 Row(
@@ -282,7 +315,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          // Handle the first button action
+                          // Handle the "Cancel" button action
+                          Navigator.pop(context); // Close the modal
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red, // Change the color as needed
@@ -293,11 +327,54 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 16), // Add some spacing between the buttons
+                    SizedBox(width: 16),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          // Handle the second button action
+                        onPressed: () async {
+                          // Handle the "Accept" button action
+                          updateStatus("ok"); // Update the status to "ok"
+
+                          // Get the user's current location
+                          final position = await Geolocator.getCurrentPosition(
+                            desiredAccuracy: LocationAccuracy.best,
+                          );
+
+                          // Update Firestore using 'uid' as the identifier
+                          FirebaseFirestore.instance
+                              .collection('orders')
+                              .where('uid', isEqualTo: order['uid'])
+                              .get()
+                              .then((QuerySnapshot querySnapshot) {
+                            querySnapshot.docs.forEach((doc) {
+                              // Update the status in Firestore
+                              doc.reference.update({'Status': 'ok'}).then((_) {
+                                print('Firestore update successful');
+                              }).catchError((error) {
+                                print('Error updating Firestore: $error');
+                              });
+                            });
+
+                            // Update live location in Firestore
+                            FirebaseFirestore.instance
+                                .collection('live_locations')
+                                .doc(order['uid']) // Use 'uid' as the identifier
+                                .set({
+                              'latitude': position.latitude,
+                              'longitude': position.longitude,
+                              'timestamp': FieldValue.serverTimestamp(),
+                            })
+                                .then((_) {
+                              print('Live location update successful');
+                            })
+                                .catchError((error) {
+                              print('Error updating live location: $error');
+                            });
+                          })
+                              .catchError((error) {
+                            print('Error querying Firestore: $error');
+                          });
+
+                          Navigator.pop(context); // Close the modal
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black, // Change the color as needed
@@ -308,26 +385,27 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         ),
                       ),
                     ),
+
                   ],
                 ),
-                SizedBox(height: 20),
+
+  SizedBox(height: 20),
                 Text(
                   'Location on Map:',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
                 Container(
-                  height: 200, // Adjust the height as needed
+                  height: 200,
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(6.9601, 79.9580), // Example coordinates
+                      target: LatLng(6.9601, 79.9580),
                       zoom: 10.0,
                     ),
                     markers: {
                       Marker(
                         markerId: MarkerId('customer_location'),
-                        position:
-                            LatLng(6.9601, 79.9580), // Kelaniya, Sri Lanka
+                        position: LatLng(6.9601, 79.9580),
                       ),
                     },
                   ),
@@ -340,6 +418,9 @@ class _RiderdashboardState extends State<Riderdashboard> {
     );
   }
 }
+
+
+
 
 class _DashboardTile extends StatelessWidget {
   final String title;
@@ -379,3 +460,23 @@ class _DashboardTile extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+Future<String> getLocationName(double latitude, double longitude) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(latitude, longitude);
+    if (placemarks.isNotEmpty) {
+      Placemark placemark = placemarks[0];
+      String locationName = "${placemark.locality}, ${placemark.administrativeArea}";
+      return locationName;
+    } else {
+      return "Location not found";
+    }
+  } catch (e) {
+    return "Error: $e";
+  }
+}
+
