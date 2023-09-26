@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,56 +28,44 @@ class MapViewPage extends StatefulWidget {
 }
 
 class _MapViewPageState extends State<MapViewPage> {
-  GoogleMapController? _controller; // Initialize as nullable
-  LatLng _currentLocation = LatLng(0.0, 0.0); // Initial placeholder coordinates
-
-  // Function to get and update the user's current location
-  void _updateUserLocation() async {
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.best,
-    );
-
-    setState(() {
-      _currentLocation = LatLng(position.latitude, position.longitude);
-    });
-
-    if (_controller != null) {
-      _controller!.animateCamera(CameraUpdate.newLatLng(_currentLocation));
-    }
-
-    // Update Firestore with the location data
-    _updateLocationInFirestore(_currentLocation);
-  }
-
-  // Function to update the user's location in Firestore
-  void _updateLocationInFirestore(LatLng location) async {
-    try {
-      // Replace 'user123' with the actual user's unique identifier
-      final userId = 'user123';
-
-      // Create a Firestore reference to the user's location document
-      final userLocationRef = FirebaseFirestore.instance.collection('live_locations').doc(userId);
-
-      // Update the Firestore document with the new location
-      await userLocationRef.set({
-        'latitude': location.latitude,
-        'longitude': location.longitude,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
-
-      print('Location updated in Firestore: Latitude ${location.latitude}, Longitude ${location.longitude}');
-    } catch (e) {
-      print('Error updating location in Firestore: $e');
-    }
-  }
+  GoogleMapController? _controller;
+  List<Marker> _markers = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize the _controller in the initState method
-    _controller = null; // Initialize it as null
-    // Get and update the user's current location when the page is initialized
-    _updateUserLocation();
+    _subscribeToLocationUpdates();
+  }
+
+  // Function to subscribe to real-time location updates from Firestore
+  void _subscribeToLocationUpdates() {
+    final locationCollection = FirebaseFirestore.instance.collection('live_locations');
+
+    locationCollection.snapshots().listen((querySnapshot) {
+      _markers.clear(); // Clear existing markers
+      querySnapshot.docs.forEach((locationDoc) {
+        final data = locationDoc.data() as Map<String, dynamic>;
+        final latitude = data['latitude'] as double;
+        final longitude = data['longitude'] as double;
+
+        final marker = Marker(
+          markerId: MarkerId(locationDoc.id),
+          position: LatLng(latitude, longitude),
+          infoWindow: InfoWindow(
+            title: 'Location',
+            snippet: 'Latitude: $latitude, Longitude: $longitude',
+          ),
+        );
+
+        _markers.add(marker);
+      });
+
+      if (_controller != null) {
+        setState(() {
+          _markers = _markers;
+        });
+      }
+    });
   }
 
   @override
@@ -89,18 +76,15 @@ class _MapViewPageState extends State<MapViewPage> {
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: _currentLocation, // Initial map center
-          zoom: 15.0, // Initial zoom level (adjust as needed)
+          target: LatLng(0.0, 0.0),
+          zoom: 15.0,
         ),
         onMapCreated: (controller) {
-          _controller = controller;
+          setState(() {
+            _controller = controller;
+          });
         },
-        markers: {
-          Marker(
-            markerId: MarkerId('user_location'),
-            position: _currentLocation,
-          ),
-        },
+        markers: Set<Marker>.from(_markers),
       ),
     );
   }

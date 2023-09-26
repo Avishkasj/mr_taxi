@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,6 +12,7 @@ class Orderview extends StatefulWidget {
   final LatLng? currentLocation; // Nullable LatLng for current location
   final LatLng? searchLocation;  // Nullable LatLng for search location
   final String formattedDistance;
+
 
   Orderview({
     required this.selectedCardData,
@@ -30,6 +33,7 @@ class _OrderviewState extends State<Orderview> {
     super.initState();
     // Calculate the total amount when the widget is initialized
     calculateTotalAmount();
+
   }
 
   void calculateTotalAmount() {
@@ -42,6 +46,8 @@ class _OrderviewState extends State<Orderview> {
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+   String status =  getStatusForCurrentUser(auth.currentUser!.uid).toString();
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -263,6 +269,48 @@ class _OrderviewState extends State<Orderview> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                    decoration: BoxDecoration(
+                  // Add your container decoration here if needed.
+                  // For example, you can set the background color or add padding.
+                ),
+                child:  StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('orders')
+                      .where('uid', isEqualTo: auth.currentUser!.uid)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return CircularProgressIndicator();
+                    }
+
+                    if (snapshot.hasError) {
+                      return Text("Error: ${snapshot.error}");
+                    }
+
+                    // Access the first document in the QuerySnapshot
+                    var status = 'N/A'; // Default value if no documents are found
+                    if (snapshot.data!.docs.isNotEmpty) {
+                      var firstDocument = snapshot.data!.docs[0];
+                      // Assuming 'Status' is a field in your Firestore document.
+                      status = firstDocument['Status'];
+                    }
+
+                    return Text(
+                      'Status: $status',
+                      style: TextStyle(fontSize: 22, color: Colors.white),
+                    );
+                  },
+                )
+
+                    ),
+
+
+
+
+
+
+
                     Text(
                       'Vehicle Model : ${widget.selectedCardData['vehicleModel']}',
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
@@ -304,6 +352,32 @@ class _OrderviewState extends State<Orderview> {
 }
 
 // Rest of your code...
+
+Future<String> getStatusForCurrentUser(String currentUserId) async {
+  try {
+    // Reference to the Firestore collection where your data is stored
+    CollectionReference ordersCollection = FirebaseFirestore.instance.collection('orders');
+
+    // Query the document based on the user ID
+    QuerySnapshot querySnapshot = await ordersCollection.where('uid', isEqualTo: currentUserId).get();
+
+    // Check if a document matching the user ID exists
+    if (querySnapshot.docs.isNotEmpty) {
+      // Retrieve the first document (assuming there's only one) and get the "Status" field
+      String status = querySnapshot.docs.first['Status'];
+
+      return status;
+    } else {
+      // Handle the case where no matching document was found
+      return "User not found";
+    }
+  } catch (e) {
+    // Handle any errors that may occur during the Firestore query
+    print("Error: $e");
+    return "Error";
+  }
+}
+
 
 
 

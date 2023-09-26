@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -40,13 +41,31 @@ class _VehicaldataState extends State<Vehicaldata> {
     String? uid = user?.uid;
 
     try {
+      // Upload images to Firebase Storage and get their download URLs
+      List<String> imageUrls = [];
+
+      for (int i = 0; i < _imageFiles.length; i++) {
+        if (_imageFiles[i] != null) {
+          String imageName = 'vehicle_image_$i.jpg'; // Change the image name as needed
+          Reference storageRef = FirebaseStorage.instance.ref().child(imageName);
+
+          UploadTask uploadTask = storageRef.putFile(_imageFiles[i]!);
+          TaskSnapshot taskSnapshot = await uploadTask;
+          String imageUrl = await taskSnapshot.ref.getDownloadURL();
+          imageUrls.add(imageUrl);
+        } else {
+          imageUrls.add(''); // Use an empty string if no image is selected
+        }
+      }
+
+      // Store the data in Firestore, including image URLs
       await vehicleCollection.add({
         'vehicleModel': vehicleModel,
         'vehicleBrand': vehicleBrand,
         'chargesPerKm': chargesPerKm,
         'aboutVehicle': aboutVehicle,
-        'userId': uid, // Replace with the actual user ID
-        // You can also add image URLs if you upload the images to a storage service
+        'userId': uid,
+        'imageUrls': imageUrls, // Store the image URLs in Firestore
       });
 
       // Clear the text fields and image files after saving
@@ -65,6 +84,7 @@ class _VehicaldataState extends State<Vehicaldata> {
       print('Error: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
