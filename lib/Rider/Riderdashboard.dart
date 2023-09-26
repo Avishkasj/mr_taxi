@@ -1,17 +1,14 @@
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
-import 'package:uuid/uuid.dart';
 
 
 void main() {
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +23,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 
 
@@ -358,24 +354,21 @@ class _RiderdashboardState extends State<Riderdashboard> {
                               });
                             });
 
-
-                           // Update live location in Firestore
-                           //  FirebaseFirestore.instance
-                           //      .collection('live_locations')
-                           //      .doc(order['uid']) // Use 'uid' as the identifier
-                           //      .set({
-                           //    'latitude': position.latitude,
-                           //    'longitude': position.longitude,
-                           //    'timestamp': FieldValue.serverTimestamp(),
-                           //  })
-                           //      .then((_) {
-                              updateLocation(order);
-                              startLocationUpdate(order);
-                            //   print('Live location update successful');
-                            // })
-                            //     .catchError((error) {
-                            //   print('Error updating live location: $error');
-                            // });
+                            // Update live location in Firestore
+                            FirebaseFirestore.instance
+                                .collection('live_locations')
+                                .doc(order['uid']) // Use 'uid' as the identifier
+                                .set({
+                              'latitude': position.latitude,
+                              'longitude': position.longitude,
+                              'timestamp': FieldValue.serverTimestamp(),
+                            })
+                                .then((_) {
+                              print('Live location update successful');
+                            })
+                                .catchError((error) {
+                              print('Error updating live location: $error');
+                            });
                           })
                               .catchError((error) {
                             print('Error querying Firestore: $error');
@@ -392,9 +385,9 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         ),
                       ),
                     ),
+
                   ],
                 ),
-
 
   SizedBox(height: 20),
                 Text(
@@ -467,59 +460,6 @@ class _DashboardTile extends StatelessWidget {
     );
   }
 }
-
-
-
-
-//location update
-
-// Create a timer to periodically update the location
-Timer? locationUpdateTimer;
-
-void startLocationUpdate(Map<String, dynamic> order) async {
-  // Start a timer that fetches and updates the location every X seconds
-  const Duration updateInterval = Duration(seconds: 5); // Update every 30 seconds, you can adjust this value
-  locationUpdateTimer = Timer.periodic(updateInterval, (_) {
-  updateLocation(order);
-  });
-}
-
-void stopLocationUpdate() {
-  // Cancel the location update timer when it's no longer needed
-  locationUpdateTimer?.cancel();
-}
-
-void updateLocation(Map<String, dynamic> order) async {
-  try {
-    // Get the user's current location
-    final position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.best,
-
-    );
-
-    FirebaseAuth auth = FirebaseAuth.instance;
-    // Update live location in Firestore along with order information
-    FirebaseFirestore.instance
-        .collection('live_locations')
-        .doc(order['uid']) // Use 'uid' as the identifier
-        .set({
-      'latitude': position.latitude,
-      'longitude': position.longitude,
-      'timestamp': FieldValue.serverTimestamp(),
-      'uid':auth.currentUser!.uid // Include order information
-    })
-        .then((_) {
-      print('Live location update successful');
-    })
-        .catchError((error) {
-      print('Error updating live location: $error');
-    });
-  } catch (error) {
-    print('Error getting location: $error');
-  }
-}
-
-
 
 
 
