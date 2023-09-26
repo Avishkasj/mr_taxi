@@ -269,48 +269,10 @@ class _OrderviewState extends State<Orderview> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                    decoration: BoxDecoration(
-                  // Add your container decoration here if needed.
-                  // For example, you can set the background color or add padding.
-                ),
-                child:  StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('orders')
-                      .where('uid', isEqualTo: auth.currentUser!.uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return CircularProgressIndicator();
-                    }
-
-                    if (snapshot.hasError) {
-                      return Text("Error: ${snapshot.error}");
-                    }
-
-                    // Access the first document in the QuerySnapshot
-                    var status = 'N/A'; // Default value if no documents are found
-                    if (snapshot.data!.docs.isNotEmpty) {
-                      var firstDocument = snapshot.data!.docs[0];
-                      // Assuming 'Status' is a field in your Firestore document.
-                      status = firstDocument['Status'];
-                    }
-
-                    return Text(
-                      'Status: $status',
-                      style: TextStyle(fontSize: 22, color: Colors.white),
-                    );
-                  },
-                )
-
+                    Text(
+                      'status $status ',
+                      style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
                     ),
-
-
-
-
-
-
-
                     Text(
                       'Vehicle Model : ${widget.selectedCardData['vehicleModel']}',
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style

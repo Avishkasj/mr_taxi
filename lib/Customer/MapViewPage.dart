@@ -48,6 +48,8 @@ class _MapViewPageState extends State<MapViewPage> {
         final latitude = data['latitude'] as double;
         final longitude = data['longitude'] as double;
 
+        LatLng newlatlang =data['latitude'];
+
         final marker = Marker(
           markerId: MarkerId(locationDoc.id),
           position: LatLng(latitude, longitude),
@@ -76,9 +78,10 @@ class _MapViewPageState extends State<MapViewPage> {
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: LatLng(0.0, 0.0),
-          zoom: 15.0,
+          target: LatLng(7.8731, 80.7718), // Sri Lanka coordinates
+          zoom: 17.0, // You can adjust the zoom level as needed
         ),
+
         onMapCreated: (controller) {
           setState(() {
             _controller = controller;
