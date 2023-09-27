@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mr_taxi/Login.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
 import 'package:uuid/uuid.dart';
+
+import 'DirectionToCustomer.dart';
 
 
 void main() {
@@ -219,7 +222,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                           final usermobile = userData['mobile'];
 
                           return ListTile(
-                            title: Text('Customer name: $username',style: TextStyle(color: Colors.white),), // Display the username
+                            title: Text('Customer Mobile: $usermobile',style: TextStyle(color: Colors.white),), // Display the username
                             subtitle: Text('Status: $status',style: TextStyle(color: Colors.white),),
                             trailing: ElevatedButton(
                               onPressed: () {
@@ -228,6 +231,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                                   setState(() {
                                     orders[index]['Status'] = newStatus;
                                     print("++++++++++++++++++++Status updated+++++++++++++++++++++++++++++++++++++");
+
                                   });
                                 });
                               },
@@ -278,12 +282,12 @@ class _RiderdashboardState extends State<Riderdashboard> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Vehicaldata()),
+                MaterialPageRoute(builder: (context) => Login()),
               );
             },
           ),
@@ -319,8 +323,11 @@ class _RiderdashboardState extends State<Riderdashboard> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          print("--------------------nav ok ----------------------------");
                           // Handle the "Cancel" button action
-                          Navigator.pop(context); // Close the modal
+                          //Navigator.pop(context);
+                          //Close the modal
+
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red, // Change the color as needed
@@ -336,7 +343,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                       child: ElevatedButton(
                         onPressed: () async {
                           // Handle the "Accept" button action
-                          updateStatus("ok"); // Update the status to "ok"
+                          updateStatus("Accept"); // Update the status to "ok"
 
                           // Get the user's current location
                           final position = await Geolocator.getCurrentPosition(
@@ -351,7 +358,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                               .then((QuerySnapshot querySnapshot) {
                             querySnapshot.docs.forEach((doc) {
                               // Update the status in Firestore
-                              doc.reference.update({'Status': 'ok'}).then((_) {
+                              doc.reference.update({'Status': 'Accept'}).then((_) {
                                 print('Firestore update successful');
                               }).catchError((error) {
                                 print('Error updating Firestore: $error');
@@ -381,7 +388,17 @@ class _RiderdashboardState extends State<Riderdashboard> {
                             print('Error querying Firestore: $error');
                           });
 
-                          Navigator.pop(context); // Close the modal
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RiderDashboardPage(
+                                // order: {
+                                //   // Provide the order data here
+                                //   'currentLocation': ['6.9271° N', '79.8612° E'],
+                                // },
+                              ),
+                            ),
+                          );// Close the modal
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black, // Change the color as needed

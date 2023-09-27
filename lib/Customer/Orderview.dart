@@ -26,7 +26,8 @@ class Orderview extends StatefulWidget {
 }
 
 class _OrderviewState extends State<Orderview> {
-  double totalAmount = 0.0; // Declare a variable to store the total amount
+  double totalAmount = 0.0;
+  String formattedTotalAmount="";// Declare a variable to store the total amount
 
   @override
   void initState() {
@@ -42,6 +43,8 @@ class _OrderviewState extends State<Orderview> {
     double? myDouble = double.tryParse(chargesPerKm);
     double distance = double.tryParse(widget.formattedDistance) ?? 0.0;
     totalAmount = (myDouble! * distance)!;
+    formattedTotalAmount = totalAmount.toStringAsFixed(0);
+
   }
 
   @override
@@ -52,7 +55,7 @@ class _OrderviewState extends State<Orderview> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Waiting . . . '),
+        title: Text('Order'),
       ),
       drawer: _buildSidebarDrawer(),
       body: SingleChildScrollView(
@@ -71,65 +74,106 @@ class _OrderviewState extends State<Orderview> {
             //   ),
             // ),
 
-
-            Container(
-            color: Colors.black,
+            Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-                child: Container(
-                  height: 160, // Adjust the height as needed
-                  child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        widget.currentLocation?.latitude ?? 0.0, // Use a default value if null
-                        widget.currentLocation?.longitude ?? 0.0,
-                      ), // Initial map center coordinates
-                      zoom: 12.0, // Initial zoom level
-                    ),
-                    markers: Set<Marker>.from([
-                      Marker(
-                        markerId: MarkerId("marker_1"),
-                        position: LatLng(
-                          widget.searchLocation?.latitude ?? 0.0, // Use a default value if null
-                          widget.searchLocation?.longitude ?? 0.0,
-                        ), // Marker coordinates
-                        infoWindow: InfoWindow(
-                          title: "Destination",
-                          snippet: "Your destination",
-                        ),
-                      ),
-                    ]),
-                    onMapCreated: (GoogleMapController controller) {
-                      // Controller to interact with the map
-                      // You can store it in a variable to use it later.
-                    },
+                padding: const EdgeInsets.only(top: 0),
+                child: Image(
+                  image: AssetImage(
+                    'assets/tx1.jpg',
                   ),
+
+                  width: 550,
                 ),
               ),
             ),
+
+
+            // Container(
+            // color: Colors.black,
+            //   child: Padding(
+            //     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+            //     child: Container(
+            //       height: 160, // Adjust the height as needed
+            //       child: GoogleMap(
+            //         initialCameraPosition: CameraPosition(
+            //           target: LatLng(
+            //             widget.currentLocation?.latitude ?? 0.0, // Use a default value if null
+            //             widget.currentLocation?.longitude ?? 0.0,
+            //           ), // Initial map center coordinates
+            //           zoom: 12.0, // Initial zoom level
+            //         ),
+            //         markers: Set<Marker>.from([
+            //           Marker(
+            //             markerId: MarkerId("marker_1"),
+            //             position: LatLng(
+            //               widget.searchLocation?.latitude ?? 0.0, // Use a default value if null
+            //               widget.searchLocation?.longitude ?? 0.0,
+            //             ), // Marker coordinates
+            //             infoWindow: InfoWindow(
+            //               title: "Destination",
+            //               snippet: "Your destination",
+            //             ),
+            //           ),
+            //         ]),
+            //         onMapCreated: (GoogleMapController controller) {
+            //           // Controller to interact with the map
+            //           // You can store it in a variable to use it later.
+            //         },
+            //       ),
+            //     ),
+            //   ),
+            // ),
             SizedBox(height: 10,),
 
-            Center(
-              child: OutlinedButton(
-                child: Text(
-                  "View My Driver",
-                  style: TextStyle(
-                    color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: OutlinedButton(
+                  child: Text(
+                    "Where My Taxi ?",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(
+                      width: 2.0, // set the border weight to 2.0
+                      color: Colors.white,
+                    ),
+                    fixedSize: Size(350, 50),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => MapViewPage()),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Container(
+                height: 50,
+                width: double.infinity, // Make the button full-width
+                child: ElevatedButton(
+                  onPressed: () {
+
+
+
+
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.yellow, // Set the background color to yellow
+                  ),
+                  child: Text(
+                    'Order Complete',
+                    style: TextStyle(color: Colors.black),
                   ),
                 ),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(
-                    width: 2.0, // set the border weight to 2.0
-                    color: Colors.white,
-                  ),
-                  fixedSize: Size(350, 50),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MapViewPage()),
-                  );
-                },
               ),
             ),
 
@@ -212,7 +256,7 @@ class _OrderviewState extends State<Orderview> {
                               SizedBox(height: 10),
                               Text(
                                 'Per KM: RS ${widget.selectedCardData['chargesPerKm']}',
-                                style: TextStyle(fontSize: 20, color: Colors.black),
+                                style: TextStyle(fontSize: 14, color: Colors.black),
                               ),
                             ],
                           ),
@@ -246,8 +290,8 @@ class _OrderviewState extends State<Orderview> {
                               ),
                               SizedBox(height: 10),
                               Text(
-                                'Total RS:  $totalAmount',
-                                style: TextStyle(fontSize: 20, color: Colors.black),
+                                'Total RS:  $formattedTotalAmount',
+                                style: TextStyle(fontSize: 14, color: Colors.black),
                               ),
                             ],
                           ),
@@ -269,10 +313,10 @@ class _OrderviewState extends State<Orderview> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'status $status ',
-                      style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
-                    ),
+                    // Text(
+                    //   'status $status ',
+                    //   style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
+                    // ),
                     Text(
                       'Vehicle Model : ${widget.selectedCardData['vehicleModel']}',
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
@@ -281,23 +325,24 @@ class _OrderviewState extends State<Orderview> {
                       'Brand ${widget.selectedCardData['vehicleBrand']}',
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
                     ),
-
-                    Text(
-                      'Driver ${widget.selectedCardData['userId']}',
-                      style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
-                    ),
-                    Text(
-                      'Current Location ${widget.currentLocation}',
-                      style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
-                    ),
-                    Text(
-                      'Search Location ${widget.searchLocation}',
-                      style: TextStyle(fontSize: 22,color: Colors.white),// Add your desired style
-                    ),
                     Text(
                       'Distance ${widget.formattedDistance}',
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
                     ),
+
+                    // Text(
+                    //   'Driver ${widget.selectedCardData['userId']}',
+                    //   style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
+                    // ),
+                    // Text(
+                    //   'Current Location ${widget.currentLocation}',
+                    //   style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
+                    // ),
+                    // Text(
+                    //   'Search Location ${widget.searchLocation}',
+                    //   style: TextStyle(fontSize: 22,color: Colors.white),// Add your desired style
+                    // ),
+
 
                   ],
                 ),
@@ -364,6 +409,19 @@ Widget _buildSidebarDrawer() {
         ListTile(
           leading: Icon(Icons.person),
           title: Text('Profile'),
+          onTap: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Vehicaldata()),
+            // );
+          },
+        ),
+
+
+
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text('Logout'),
           onTap: () {
             // Navigator.push(
             //   context,

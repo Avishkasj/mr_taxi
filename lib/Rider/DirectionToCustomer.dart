@@ -14,14 +14,14 @@ import 'package:mr_taxi/Welcome.dart';
 
 
 
-class Customermap extends StatefulWidget {
-  const Customermap({Key? key}) : super(key: key);
+class RiderDashboardPage extends StatefulWidget {
+  const RiderDashboardPage({Key? key}) : super(key: key);
 
   @override
-  State<Customermap> createState() => _CustomermapState();
+  State<RiderDashboardPage> createState() => _RiderDashboardPageState();
 }
 
-class _CustomermapState extends State<Customermap> {
+class _RiderDashboardPageState extends State<RiderDashboardPage> {
   var selectedCardData;
   var toatalamount;
   LatLng? currentLocation;
@@ -86,6 +86,7 @@ class _CustomermapState extends State<Customermap> {
     if (locations.isNotEmpty) {
       Location location = locations.first;
       searchLocation = LatLng(location.latitude, location.longitude);
+      //searchLocation = LatLng(6.9271, 79.8612);
       polygonPoints.add(searchLocation!);
 
       if (currentLocation != null && searchLocation != null) {
@@ -140,45 +141,45 @@ class _CustomermapState extends State<Customermap> {
       drawer: _buildDrawer(),
       body: Column(
         children: [
-        Expanded(
-        flex: 5,
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: LatLng(7.8731, 80.7718), // Sri Lanka's coordinates
-            zoom: 6,
-          ),
-          markers: Set<Marker>.of([
-            if (currentLocation != null)
-              Marker(markerId: MarkerId('current'), position: currentLocation!),
-            if (searchLocation != null)
-              Marker(markerId: MarkerId('search'), position: searchLocation!),
-          ]),
-          polylines: Set<Polyline>.of(polylines),
-        ),
-      ),
-
-
           Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                      onPressed: getCurrentLocation,
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black, // Set the background color to black
-                      ),
-                      icon: Icon(Icons.my_location),
-                      label: Text('Get Current Location'),
-                    ),
-                  ),
-                ),
-              ],
+            flex: 5,
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(7.8731, 80.7718), // Sri Lanka's coordinates
+                zoom: 6,
+              ),
+              markers: Set<Marker>.of([
+                if (currentLocation != null)
+                  Marker(markerId: MarkerId('current'), position: currentLocation!),
+                if (searchLocation != null)
+                  Marker(markerId: MarkerId('search'), position: searchLocation!),
+              ]),
+              polylines: Set<Polyline>.of(polylines),
             ),
           ),
+
+
+          // Expanded(
+          //   flex: 1,
+          //   child: Row(
+          //     children: [
+          //       Expanded(
+          //         child: Padding(
+          //           padding: EdgeInsets.all(8.0),
+          //           child: ElevatedButton.icon(
+          //             onPressed: getCurrentLocation,
+          //             style: ElevatedButton.styleFrom(
+          //               primary: Colors.black, // Set the background color to black
+          //             ),
+          //             icon: Icon(Icons.my_location),
+          //             label: Text('Get Current Location'),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
 
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -215,13 +216,15 @@ class _CustomermapState extends State<Customermap> {
           ),
 
 
-          MyCard(
-            onCardSelected: (data) {
-              setState(() {
-                selectedCardData = data;
-              });
-            },
-          ),
+          // MyCard(
+          //   onCardSelected: (data) {
+          //     setState(() {
+          //       selectedCardData = data;
+          //     });
+          //   },
+          // ),
+
+
 
 
           Padding(
@@ -231,70 +234,70 @@ class _CustomermapState extends State<Customermap> {
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
-                  if (currentLocation != null && searchLocation != null) {
-                    GeoPoint currentLocationGeoPoint = GeoPoint(
-                      currentLocation!.latitude,
-                      currentLocation!.longitude,
-                    );
-                    GeoPoint searchLocationGeoPoint = GeoPoint(
-                      searchLocation!.latitude,
-                      searchLocation!.longitude,
-                    );
+                  // if (currentLocation != null && searchLocation != null) {
+                  //   GeoPoint currentLocationGeoPoint = GeoPoint(
+                  //     currentLocation!.latitude,
+                  //     currentLocation!.longitude,
+                  //   );
+                  //   GeoPoint searchLocationGeoPoint = GeoPoint(
+                  //     searchLocation!.latitude,
+                  //     searchLocation!.longitude,
+                  //   );
 
 
+                    //
+                    // // Create a map with the order data
+                    // Map<String, dynamic> orderData = {
+                    //   'selectedCardData': selectedCardData.toString(),
+                    //   'currentLocation': currentLocationGeoPoint, // Save currentLocation as a GeoPoint
+                    //   'searchLocation': searchLocationGeoPoint,   // Save searchLocation as a GeoPoint
+                    //   'Distance': formattedDistance,
+                    //   'uid': auth.currentUser!.uid,
+                    //   'Status': "pending",
+                    // };
 
-                    // Create a map with the order data
-                    Map<String, dynamic> orderData = {
-                      'selectedCardData': selectedCardData.toString(),
-                      'currentLocation': currentLocationGeoPoint, // Save currentLocation as a GeoPoint
-                      'searchLocation': searchLocationGeoPoint,   // Save searchLocation as a GeoPoint
-                      'Distance': formattedDistance,
-                      'uid': auth.currentUser!.uid,
-                      'Status': "pending",
-                    };
-
-                    // Add this data to Firestore
-                    FirebaseFirestore.instance
-                        .collection('orders') // Change 'orders' to the desired collection name
-                        .add(orderData)
-                        .then((value) {
-                      // Successfully added data to Firestore
-                      print("---------------------------------------------------------------------------");
-                      print('Order data added to Firestore!');
-                    }).catchError((error) {
-                      // Handle errors here
-                      print("---------------------------------------------------------------------------");
-                      print('Error adding order data to Firestore: $error');
-                    });
-                  } else {
-                    // Handle the case where currentLocation or searchLocation is null
-                    print('currentLocation or searchLocation is null.');
-                  }
+                  //   // Add this data to Firestore
+                  //   FirebaseFirestore.instance
+                  //       .collection('orders') // Change 'orders' to the desired collection name
+                  //       .add(orderData)
+                  //       .then((value) {
+                  //     // Successfully added data to Firestore
+                  //     print("---------------------------------------------------------------------------");
+                  //     print('Order data added to Firestore!');
+                  //   }).catchError((error) {
+                  //     // Handle errors here
+                  //     print("---------------------------------------------------------------------------");
+                  //     print('Error adding order data to Firestore: $error');
+                  //   });
+                  // } else {
+                  //   // Handle the case where currentLocation or searchLocation is null
+                  //   print('currentLocation or searchLocation is null.');
+                  // }
 
 
-                  print("object");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Orderview(
-                      selectedCardData: selectedCardData,
-                      currentLocation: currentLocation,
-                      searchLocation: searchLocation,
-                      formattedDistance : formattedDistance,
-
-                      // km: 40,
-                    )),
-                  );
+                  // print("object");
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => Orderview(
+                  //     selectedCardData: selectedCardData,
+                  //     currentLocation: currentLocation,
+                  //     searchLocation: searchLocation,
+                  //     formattedDistance : formattedDistance,
+                  //
+                  //     // km: 40,
+                  //   )),
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.yellow, // Set the background color to yellow
                 ),
                 child: Text(
-                  'Book Now ' + " "+formattedDistance+"KM",
+                  'Go Back',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
             ),
-          )
+          ),
 
         ],
       ),
@@ -341,7 +344,12 @@ class _CustomermapState extends State<Customermap> {
               // Handle the option 1 action
             },
           ),
-          
+          ListTile(
+            title: Text('Option 2'),
+            onTap: () {
+              // Handle the option 2 action
+            },
+          ),
           // Add more list tiles for additional options
         ],
       ),
@@ -352,7 +360,7 @@ class _CustomermapState extends State<Customermap> {
 
 void main() {
   runApp(MaterialApp(
-    home: Customermap(),
+    home: RiderDashboardPage(),
   ));
 }
 
@@ -404,72 +412,70 @@ class _MyCardState extends State<MyCard> {
                   // Pass the selected card data to the callback function
                   widget.onCardSelected(vehicleData);
                 },
-                child: SingleChildScrollView(
-                  child: Container(
-                    width: 130,
-                    height: 160,
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('${vehicleData['vehicleModel']}'),
-                        // Replace 'image_url' with the field containing the image URL in your Firestore document
-                        Container(
-                          height: 80,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(0),
-                            image: DecorationImage(
-                              image: AssetImage('assets/car2.png'), // Replace with actual image path
-                              fit: BoxFit.fitWidth,
+                child: Container(
+                  width: 130,
+                  height: 160,
+                  margin: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('${vehicleData['vehicleModel']}'),
+                      // Replace 'image_url' with the field containing the image URL in your Firestore document
+                      Container(
+                        height: 80,
+                        width: 100,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/car2.png'), // Replace with actual image path
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
+                      ),
+                      Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                      SizedBox(height: 5),
+                      GestureDetector(
+                        child: GestureDetector(
+                          onTap: () {
+
+                            // Pass the selected card data to the callback function
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  // Customize the modal content here
+                                  child: Column(
+                                    children: [
+                                      Text('Additional Details'),
+                                      Text('Model: ${vehicleData['vehicleModel']}'),
+                                      Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
+                                      Text('Brand ${vehicleData['vehicleBrand']}'),
+                                      Text('Owner ${vehicleData['userId']}'),
+                                      Text('About ${vehicleData['aboutVehicle']}'),
+
+                                      // Add more details as needed
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            color: Colors.yellow,
+                            width: 120,
+                            height: 30,
+                            child: Center(
+                              child: Text("More"),
                             ),
                           ),
                         ),
-                        Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
-                        SizedBox(height: 5),
-                        GestureDetector(
-                          child: GestureDetector(
-                            onTap: () {
-
-                              // Pass the selected card data to the callback function
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (context) {
-                                  return Container(
-                                    // Customize the modal content here
-                                    child: Column(
-                                      children: [
-                                        Text('Additional Details'),
-                                        Text('Model: ${vehicleData['vehicleModel']}'),
-                                        Text('Per KM: RS ${vehicleData['chargesPerKm']}'),
-                                        Text('Brand ${vehicleData['vehicleBrand']}'),
-                                        Text('Owner ${vehicleData['userId']}'),
-                                        Text('About ${vehicleData['aboutVehicle']}'),
-
-                                        // Add more details as needed
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                            child: Container(
-                              color: Colors.yellow,
-                              width: 120,
-                              height: 30,
-                              child: Center(
-                                child: Text("More"),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
