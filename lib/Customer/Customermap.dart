@@ -251,6 +251,7 @@ class _CustomermapState extends State<Customermap> {
                       'Distance': formattedDistance,
                       'uid': auth.currentUser!.uid,
                       'Status': "pending",
+
                     };
 
                     // Add this data to Firestore
