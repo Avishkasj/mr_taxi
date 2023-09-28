@@ -156,7 +156,7 @@ class _OrderviewState extends State<Orderview> {
 
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Container(
                 height: 50,
                 width: double.infinity, // Make the button full-width
