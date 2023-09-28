@@ -14,6 +14,7 @@ import 'package:uuid/uuid.dart';
 import 'DirectionToCustomer.dart';
 
 
+
 void main() {
   runApp(MyApp());
 }
@@ -389,11 +390,11 @@ class _RiderdashboardState extends State<Riderdashboard> {
                             print('Error querying Firestore: $error');
                           });
 
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RideLocations()),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => DriverMap()),
+                          // );
 
                         },
                         style: ElevatedButton.styleFrom(
