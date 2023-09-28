@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Customer/MapViewPage.dart';
 
+import 'Customermap.dart';
+
 class Orderview extends StatefulWidget {
   final Map<String, dynamic> selectedCardData;
   final LatLng? currentLocation; // Nullable LatLng for current location
@@ -160,7 +162,12 @@ class _OrderviewState extends State<Orderview> {
                 width: double.infinity, // Make the button full-width
                 child: ElevatedButton(
                   onPressed: () {
-
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return PaymentOptionDialog();
+                      },
+                    );
 
 
 
@@ -352,6 +359,86 @@ class _OrderviewState extends State<Orderview> {
           ],
 
         ),
+      ),
+    );
+  }
+}
+
+class PaymentOptionDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.credit_card),
+            title: Text('Pay with Card'),
+            onTap: () {
+              // Handle card payment logic here
+              Navigator.pop(context); // Close the dialog
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.money),
+            title: Text('Pay with Cash'),
+            onTap: () {
+              // Close the payment option dialog
+              Navigator.pop(context);
+              // Show the order completion and review dialog
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return OrderCompletionDialog();
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+//order complete card
+class OrderCompletionDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.check_circle,
+            size: 68,
+            color: Colors.green,
+          ),
+          Text('Order Completed'),
+          SizedBox(height: 16),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Leave a Review',
+              hintText: 'Tell us about your experience...',
+            ),
+            maxLines: 3,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              // Handle the review submission logic here
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Customermap()),
+              ); // Close the dialog
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.black87), // Change the color to your desired color
+            ),
+            child: Text('Submit Review'),
+          )
+
+        ],
       ),
     );
   }
