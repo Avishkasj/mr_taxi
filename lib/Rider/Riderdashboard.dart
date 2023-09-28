@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Login.dart';
+import 'package:mr_taxi/Rider/RideLocations.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
 import 'package:uuid/uuid.dart';
 
@@ -53,8 +54,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
 
   // Sample data for demonstration
-  int orderCount = 5;
-  double currentAmount = 150.0;
+  int orderCount = 1;
+  double currentAmount = 1200.0;
   List<Map<String, dynamic>> orders = [];
 
 
@@ -312,10 +313,10 @@ class _RiderdashboardState extends State<Riderdashboard> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
-                Text('Distance: ${order['Distance']}'),
+                Text('Distance: ${order['Distance']} KM'),
                 Text('Status: ${order['Status']}'),
-                Text('Customer Location: ${order['currentLocation']}'),
-                Text('Customer Drop Location: ${order['searchLocation']}'),
+                // Text('Customer Location: ${order['currentLocation']}'),
+                // Text('Customer Drop Location: ${order['searchLocation']}'),
                 Text('Customer Contact number: ${order['customermobile']}'),
                 SizedBox(height: 20),
                 Row(
@@ -391,14 +392,9 @@ class _RiderdashboardState extends State<Riderdashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => RiderDashboardPage(
-                                // order: {
-                                //   // Provide the order data here
-                                //   'currentLocation': ['6.9271° N', '79.8612° E'],
-                                // },
-                              ),
-                            ),
-                          );// Close the modal
+                                builder: (context) => RideLocations()),
+                          );
+
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.black, // Change the color as needed

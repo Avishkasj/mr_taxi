@@ -14,7 +14,6 @@ class Orderview extends StatefulWidget {
   final LatLng? searchLocation;  // Nullable LatLng for search location
   final String formattedDistance;
 
-
   Orderview({
     required this.selectedCardData,
     required this.currentLocation,
