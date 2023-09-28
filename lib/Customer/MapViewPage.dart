@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,11 +32,20 @@ class MapViewPage extends StatefulWidget {
 class _MapViewPageState extends State<MapViewPage> {
   GoogleMapController? _controller;
   List<Marker> _markers = [];
+  Uint8List? customCarIcon;
+  late LatLng location;
+
 
   @override
   void initState() {
     super.initState();
     _subscribeToLocationUpdates();
+
+    loadCustomCarIcon().then((iconData) {
+      setState(() {
+        customCarIcon = iconData;
+      });
+    });
   }
 
   // Function to subscribe to real-time location updates from Firestore
@@ -47,10 +58,16 @@ class _MapViewPageState extends State<MapViewPage> {
         final data = locationDoc.data() as Map<String, dynamic>;
         final latitude = data['latitude'] as double;
         final longitude = data['longitude'] as double;
+        location = LatLng(latitude.toDouble(), longitude.toDouble());
+
+
+
+        BitmapDescriptor customIcon = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue);
 
         final marker = Marker(
           markerId: MarkerId(locationDoc.id),
           position: LatLng(latitude, longitude),
+          icon: BitmapDescriptor.fromBytes(customCarIcon ?? Uint8List(0)),
           infoWindow: InfoWindow(
             title: 'Location',
             snippet: 'Latitude: $latitude, Longitude: $longitude',
@@ -72,12 +89,14 @@ class _MapViewPageState extends State<MapViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Location Tracking'),
+        backgroundColor: Colors.black87,
+        title: Text('Taxi Live Location'),
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-          target: LatLng(0.0, 0.0),
+          target: location,
           zoom: 15.0,
+
         ),
         onMapCreated: (controller) {
           setState(() {
@@ -87,5 +106,12 @@ class _MapViewPageState extends State<MapViewPage> {
         markers: Set<Marker>.from(_markers),
       ),
     );
+  }
+
+  Future<Uint8List> loadCustomCarIcon() async {
+    // Load your car icon image as a Uint8List
+    // Replace 'car_icon.png' with the actual path to your car icon image
+    final ByteData data = await rootBundle.load('assets/cr3.png');
+    return data.buffer.asUint8List();
   }
 }
