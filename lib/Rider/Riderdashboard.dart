@@ -229,7 +229,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
                           return ListTile(
                             title: Text('Customer Mobile: $usermobile',style: TextStyle(color: Colors.white),), // Display the username
-                            subtitle: Text('Status: $status',style: TextStyle(color: Colors.white),),
+                            subtitle: Text('Status: $status',style: TextStyle(color: Colors.red),),
                             trailing: ElevatedButton(
                               onPressed: () {
                                 _showOrderDetailsModal(context, orders[index], (newStatus) {
@@ -331,7 +331,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                         onPressed: () {
                           print("--------------------nav ok ----------------------------");
                           // Handle the "Cancel" button action
-                          //Navigator.pop(context);
+                          Navigator.pop(context);
                           //Close the modal
 
                         },
