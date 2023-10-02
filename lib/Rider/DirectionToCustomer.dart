@@ -7,6 +7,7 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:mr_taxi/Customer/Orderview.dart';
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:mr_taxi/Rider/Riderdashboard.dart';
 
 
 import 'package:mr_taxi/Welcome.dart';
@@ -160,139 +161,66 @@ class _RiderDashboardPageState extends State<RiderDashboardPage> {
           ),
 
 
-          // Expanded(
-          //   flex: 1,
-          //   child: Row(
-          //     children: [
-          //       Expanded(
-          //         child: Padding(
-          //           padding: EdgeInsets.all(8.0),
-          //           child: ElevatedButton.icon(
-          //             onPressed: getCurrentLocation,
-          //             style: ElevatedButton.styleFrom(
-          //               primary: Colors.black, // Set the background color to black
+
+          // Padding(
+          //   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          //   child: Expanded(
+          //     flex: 1,
+          //     child: Row(
+          //       children: [
+          //         Expanded(
+          //           child: Padding(
+          //             padding: EdgeInsets.all(8.0),
+          //             child: TextField(
+          //               controller: searchLocationController,
+          //               decoration: InputDecoration(
+          //                 hintText: 'Search Destination',
+          //                 prefixIcon: Icon(Icons.search),
+          //               ),
           //             ),
-          //             icon: Icon(Icons.my_location),
-          //             label: Text('Get Current Location'),
           //           ),
           //         ),
-          //       ),
-          //     ],
+          //         ElevatedButton(
+          //           onPressed: () {
+          //             if (searchLocationController.text.isNotEmpty) {
+          //               searchLocation2();
+          //             }
+          //           },
+          //           style: ElevatedButton.styleFrom(
+          //             primary: Colors.black, // Set the background color to yellow
+          //           ),
+          //           child: Text('Search'),
+          //         ),
+          //       ],
+          //     ),
           //   ),
           // ),
 
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Expanded(
-              flex: 1,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextField(
-                        controller: searchLocationController,
-                        decoration: InputDecoration(
-                          hintText: 'Search Destination',
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (searchLocationController.text.isNotEmpty) {
-                        searchLocation2();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black, // Set the background color to yellow
-                    ),
-                    child: Text('Search'),
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-
-          // MyCard(
-          //   onCardSelected: (data) {
-          //     setState(() {
-          //       selectedCardData = data;
-          //     });
-          //   },
-          // ),
 
 
 
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Container(
               height: 50,
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
-                  // if (currentLocation != null && searchLocation != null) {
-                  //   GeoPoint currentLocationGeoPoint = GeoPoint(
-                  //     currentLocation!.latitude,
-                  //     currentLocation!.longitude,
-                  //   );
-                  //   GeoPoint searchLocationGeoPoint = GeoPoint(
-                  //     searchLocation!.latitude,
-                  //     searchLocation!.longitude,
-                  //   );
 
 
-                    //
-                    // // Create a map with the order data
-                    // Map<String, dynamic> orderData = {
-                    //   'selectedCardData': selectedCardData.toString(),
-                    //   'currentLocation': currentLocationGeoPoint, // Save currentLocation as a GeoPoint
-                    //   'searchLocation': searchLocationGeoPoint,   // Save searchLocation as a GeoPoint
-                    //   'Distance': formattedDistance,
-                    //   'uid': auth.currentUser!.uid,
-                    //   'Status': "pending",
-                    // };
-
-                  //   // Add this data to Firestore
-                  //   FirebaseFirestore.instance
-                  //       .collection('orders') // Change 'orders' to the desired collection name
-                  //       .add(orderData)
-                  //       .then((value) {
-                  //     // Successfully added data to Firestore
-                  //     print("---------------------------------------------------------------------------");
-                  //     print('Order data added to Firestore!');
-                  //   }).catchError((error) {
-                  //     // Handle errors here
-                  //     print("---------------------------------------------------------------------------");
-                  //     print('Error adding order data to Firestore: $error');
-                  //   });
-                  // } else {
-                  //   // Handle the case where currentLocation or searchLocation is null
-                  //   print('currentLocation or searchLocation is null.');
-                  // }
-
-
-                  // print("object");
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Orderview(
-                  //     selectedCardData: selectedCardData,
-                  //     currentLocation: currentLocation,
-                  //     searchLocation: searchLocation,
-                  //     formattedDistance : formattedDistance,
-                  //
-                  //     // km: 40,
-                  //   )),
-                  // );
+                  print("object");
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Riderdashboard()),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.yellow, // Set the background color to yellow
                 ),
                 child: Text(
-                  'Go Back',
+                  'Go To Dashboard',
                   style: TextStyle(color: Colors.black),
                 ),
               ),
@@ -344,12 +272,7 @@ class _RiderDashboardPageState extends State<RiderDashboardPage> {
               // Handle the option 1 action
             },
           ),
-          ListTile(
-            title: Text('Option 2'),
-            onTap: () {
-              // Handle the option 2 action
-            },
-          ),
+
           // Add more list tiles for additional options
         ],
       ),
