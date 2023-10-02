@@ -55,8 +55,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
 
   // Sample data for demonstration
-  int orderCount = 5;
-  double currentAmount = 150.0;
+  double currentAmount = 1600.0;
+  late int orderCount ;
   List<Map<String, dynamic>> orders = [];
 
 
@@ -74,6 +74,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
     setState(() {
       orders = fetchedOrders;
+      orderCount = orders.length; // Calculate the number of orders
+      print('Total orders: $orderCount');
     });
   }
 
