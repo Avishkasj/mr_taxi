@@ -34,37 +34,69 @@ class _VehicaldataState extends State<Vehicaldata> {
     String aboutVehicle = _aboutVehicleController.text;
     FirebaseAuth _auth = FirebaseAuth.instance;
 
-    // Replace 'your_collection_name' with the actual name of the collection in Firestore
-    CollectionReference vehicleCollection = FirebaseFirestore.instance.collection('vehicle');
-    User? user = _auth.currentUser;
-    String? uid = user?.uid;
+    if (vehicleModel.isNotEmpty &&
+        vehicleBrand.isNotEmpty &&
+        vehicleBrand.isNotEmpty &&
+        aboutVehicle.isNotEmpty &&
+        vehicleBrand.isNotEmpty)  {
 
-    try {
-      await vehicleCollection.add({
-        'vehicleModel': vehicleModel,
-        'vehicleBrand': vehicleBrand,
-        'chargesPerKm': chargesPerKm,
-        'aboutVehicle': aboutVehicle,
-        'userId': uid, // Replace with the actual user ID
-        // You can also add image URLs if you upload the images to a storage service
-      });
 
-      // Clear the text fields and image files after saving
-      _vehicleModelController.clear();
-      _vehicleBrandController.clear();
-      _chargesPerKmController.clear();
-      _aboutVehicleController.clear();
-      setState(() {
-        _imageFiles = [null, null, null];
-      });
 
-      // Show a success message or navigate to another screen if needed
-      // e.g., ScaffoldMessenger.of(context).showSnackBar(...)
-    } catch (e) {
-      // Handle any errors that occur during saving
-      print('Error: $e');
+      // Replace 'your_collection_name' with the actual name of the collection in Firestore
+      CollectionReference vehicleCollection = FirebaseFirestore.instance
+          .collection('vehicle');
+      User? user = _auth.currentUser;
+      String? uid = user?.uid;
+
+      try {
+        await vehicleCollection.add({
+          'vehicleModel': vehicleModel,
+          'vehicleBrand': vehicleBrand,
+          'chargesPerKm': chargesPerKm,
+          'aboutVehicle': aboutVehicle,
+          'userId': uid,
+          // Replace with the actual user ID
+          // You can also add image URLs if you upload the images to a storage service
+        });
+
+        // Clear the text fields and image files after saving
+        _vehicleModelController.clear();
+        _vehicleBrandController.clear();
+        _chargesPerKmController.clear();
+        _aboutVehicleController.clear();
+        setState(() {
+          _imageFiles = [null, null, null];
+        });
+
+        // Show a success message or navigate to another screen if needed
+        // e.g., ScaffoldMessenger.of(context).showSnackBar(...)
+      } catch (e) {
+        // Handle any errors that occur during saving
+        print('Error: $e');
+      }
     }
+    else{
+      showDialog(
+          context: context,
+          builder: (BuildContext context)
+      {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text('Please fill all the fields.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      });
+    }
+
   }
+
 
   @override
   Widget build(BuildContext context) {

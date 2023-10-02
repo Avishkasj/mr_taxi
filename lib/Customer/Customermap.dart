@@ -80,6 +80,12 @@ class _CustomermapState extends State<Customermap> {
     );
   }
 
+
+
+
+
+
+
   Future<void> searchLocation2() async {
     List<Location> locations = await locationFromAddress(searchLocationController.text);
 
@@ -341,7 +347,7 @@ class _CustomermapState extends State<Customermap> {
               // Handle the option 1 action
             },
           ),
-          
+
           // Add more list tiles for additional options
         ],
       ),

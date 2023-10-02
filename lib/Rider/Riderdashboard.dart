@@ -8,6 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Login.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
+import 'package:mr_taxi/Welcome.dart';
 import 'package:uuid/uuid.dart';
 
 import 'DirectionToCustomer.dart';
@@ -183,6 +184,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   final uid = orders[index]['uid'];
+
+                  //get status
                   final status = orders[index]['Status'];
 
                   return Padding(
@@ -288,7 +291,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Login()),
+                MaterialPageRoute(builder: (context) => Welcome()),
               );
             },
           ),

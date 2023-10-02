@@ -562,6 +562,8 @@ class _RegisterState extends State<Register> {
     }
   }
 
+
+
   void _registerRider() async {
     String name = riderNameController.text;
     String vtype = ridervehicletypeController.text;

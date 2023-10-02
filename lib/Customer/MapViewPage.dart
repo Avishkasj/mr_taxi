@@ -58,7 +58,7 @@ class _MapViewPageState extends State<MapViewPage> {
         final data = locationDoc.data() as Map<String, dynamic>;
         final latitude = data['latitude'] as double;
         final longitude = data['longitude'] as double;
-        location = LatLng(latitude.toDouble(), longitude.toDouble());
+        location = LatLng(latitude, longitude);
 
 
 
