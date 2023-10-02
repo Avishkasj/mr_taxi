@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,27 +57,59 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
   // Sample data for demonstration
   double currentAmount = 1600.0;
-  late int orderCount ;
+  late int orderCount =0;
   List<Map<String, dynamic>> orders = [];
 
 
   // Function to fetch data from Firestore
   Future<void> fetchOrders() async {
+    try {
+      // Get the current user's ID. Replace this with your actual logic to fetch the user ID.
+      String currentUserId = '6YMbMAYXvRfFGghM0OeCvex2gag2'; // Replace with your logic
 
-    final QuerySnapshot<Map<String, dynamic>> snapshot =
-    await FirebaseFirestore.instance.collection('orders').get();
+      final QuerySnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('orders').get();
 
-    final List<Map<String, dynamic>> fetchedOrders = [];
+      final List<Map<String, dynamic>> fetchedOrders = [];
 
-    snapshot.docs.forEach((doc) {
-      fetchedOrders.add(doc.data());
-    });
+      snapshot.docs.forEach((doc) {
+        Map<String, dynamic> orderData = doc.data();
 
-    setState(() {
-      orders = fetchedOrders;
-      orderCount = orders.length; // Calculate the number of orders
-      print('Total orders: $orderCount');
-    });
+        // Check if the 'selectedCardData' field is not null, not empty, and a string
+        if (orderData['selectedCardData'] != null &&
+            orderData['selectedCardData'] is String &&
+            orderData['selectedCardData'].isNotEmpty) {
+          try {
+            // Attempt to parse the selectedCardData string into a Map
+            Map<String, dynamic> selectedCardData =
+            json.decode(orderData['selectedCardData']);
+
+            // Update the userId field in the selectedCardData
+            selectedCardData['userId'] = currentUserId;
+
+            // Convert the updated selectedCardData back to a string
+            String updatedSelectedCardDataString =
+            json.encode(selectedCardData);
+
+            // Update the 'selectedCardData' field in the original orderData
+            orderData['selectedCardData'] = updatedSelectedCardDataString;
+          } catch (e) {
+            print('Error parsing selectedCardData: $e');
+            // Handle the JSON parsing error here, if needed
+          }
+        }
+
+        fetchedOrders.add(orderData);
+      });
+
+      setState(() {
+        orders = fetchedOrders;
+        orderCount = orders.length; // Calculate the number of orders
+        print('Total orders: $orderCount');
+      });
+    } catch (e) {
+      print('Error fetching orders: $e');
+    }
   }
 
 
@@ -304,6 +337,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
   }
 
   void _showOrderDetailsModal(BuildContext context, Map<String, dynamic> order, Function(String) updateStatus) {
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -317,6 +351,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
                   'Ride Details:',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+
                 SizedBox(height: 10),
                 Text('Distance: ${order['Distance']}'),
                 Text('Status: ${order['Status']}'),
