@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mr_taxi/Rider/Riderdashboard.dart'; // Import Firestore
 
 class Vehicaldata extends StatefulWidget {
   const Vehicaldata({Key? key}) : super(key: key);
@@ -74,6 +75,11 @@ class _VehicaldataState extends State<Vehicaldata> {
         // Handle any errors that occur during saving
         print('Error: $e');
       }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Riderdashboard()),
+      );
     }
     else{
       showDialog(
