@@ -199,8 +199,6 @@ class _RiderDashboardPageState extends State<RiderDashboardPage> {
 
 
 
-
-
           Padding(
             padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
             child: Container(
