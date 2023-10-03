@@ -104,6 +104,16 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Text(
+                  "Swipe To Register As Driver",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 0,
               ),

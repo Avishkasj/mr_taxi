@@ -56,7 +56,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
 
 
   // Sample data for demonstration
-  double currentAmount = 1600.0;
+  double currentAmount = 0.0;
   late int orderCount =0;
   List<Map<String, dynamic>> orders = [];
 
