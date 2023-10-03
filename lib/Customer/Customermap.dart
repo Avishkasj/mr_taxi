@@ -237,59 +237,91 @@ class _CustomermapState extends State<Customermap> {
               width: double.infinity, // Make the button full-width
               child: ElevatedButton(
                 onPressed: () {
-                  if (currentLocation != null && searchLocation != null) {
-                    GeoPoint currentLocationGeoPoint = GeoPoint(
-                      currentLocation!.latitude,
-                      currentLocation!.longitude,
-                    );
-                    GeoPoint searchLocationGeoPoint = GeoPoint(
-                      searchLocation!.latitude,
-                      searchLocation!.longitude,
-                    );
 
 
 
-                    // Create a map with the order data
-                    Map<String, dynamic> orderData = {
-                      'selectedCardData': selectedCardData.toString(),
-                      'currentLocation': currentLocationGeoPoint, // Save currentLocation as a GeoPoint
-                      'searchLocation': searchLocationGeoPoint,   // Save searchLocation as a GeoPoint
-                      'Distance': formattedDistance,
-                      'uid': auth.currentUser!.uid,
-                      'Status': "pending",
-                    };
+                          if (currentLocation != null &&
+                              searchLocation != null) {
+                            GeoPoint currentLocationGeoPoint = GeoPoint(
+                              currentLocation!.latitude,
+                              currentLocation!.longitude,
+                            );
+                            GeoPoint searchLocationGeoPoint = GeoPoint(
+                              searchLocation!.latitude,
+                              searchLocation!.longitude,
+                            );
 
-                    // Add this data to Firestore
-                    FirebaseFirestore.instance
-                        .collection('orders') // Change 'orders' to the desired collection name
-                        .add(orderData)
-                        .then((value) {
-                      // Successfully added data to Firestore
-                      print("---------------------------------------------------------------------------");
-                      print('Order data added to Firestore!');
-                    }).catchError((error) {
-                      // Handle errors here
-                      print("---------------------------------------------------------------------------");
-                      print('Error adding order data to Firestore: $error');
-                    });
-                  } else {
-                    // Handle the case where currentLocation or searchLocation is null
-                    print('currentLocation or searchLocation is null.');
-                  }
+                            if (selectedCardData.isNotEmpty &&
+                                formattedDistance.isNotEmpty) {
 
 
-                  print("object");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Orderview(
-                      selectedCardData: selectedCardData,
-                      currentLocation: currentLocation,
-                      searchLocation: searchLocation,
-                      formattedDistance : formattedDistance,
+                            // Create a map with the order data
+                            Map<String, dynamic> orderData = {
+                              'selectedCardData': selectedCardData.toString(),
+                              'currentLocation': currentLocationGeoPoint,
+                              // Save currentLocation as a GeoPoint
+                              'searchLocation': searchLocationGeoPoint,
+                              // Save searchLocation as a GeoPoint
+                              'Distance': formattedDistance,
+                              'uid': auth.currentUser!.uid,
+                              'Status': "pending",
+                            };
 
-                      // km: 40,
-                    )),
-                  );
+                            // Add this data to Firestore
+                            FirebaseFirestore.instance
+                                .collection(
+                                'orders') // Change 'orders' to the desired collection name
+                                .add(orderData)
+                                .then((value) {
+                              // Successfully added data to Firestore
+                              print(
+                                  "---------------------------------------------------------------------------");
+                              print('Order data added to Firestore!');
+                            }).catchError((error) {
+                              // Handle errors here
+                              print(
+                                  "---------------------------------------------------------------------------");
+                              print(
+                                  'Error adding order data to Firestore: $error');
+                            });
+                          } else {
+                            // Handle the case where currentLocation or searchLocation is null
+                            print('currentLocation or searchLocation is null.');
+                          }
+
+
+                          print("object");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                Orderview(
+                                  selectedCardData: selectedCardData,
+                                  currentLocation: currentLocation,
+                                  searchLocation: searchLocation,
+                                  formattedDistance: formattedDistance,
+
+                                  // km: 40,
+                                )),
+                          );
+                        } else{
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context)
+                              {
+                                return AlertDialog(
+                                  title: Text('Error'),
+                                  content: Text('Click Vehicle to select vehicle.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('OK'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        }
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.yellow, // Set the background color to yellow

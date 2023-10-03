@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mr_taxi/Customer/MapViewPage.dart';
 
+import '../Welcome.dart';
 import 'Customermap.dart';
 
 class Orderview extends StatefulWidget {
@@ -59,7 +61,36 @@ class _OrderviewState extends State<Orderview> {
         backgroundColor: Colors.black,
         title: Text('Order'),
       ),
-      drawer: _buildSidebarDrawer(),
+      drawer:  Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Welcome()),
+                );
+              },
+            ),
+            // Add more sidebar items as needed
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,7 +395,11 @@ class _OrderviewState extends State<Orderview> {
       ),
     );
   }
+
+
 }
+
+
 
 // Rest of your code...
 
@@ -477,48 +512,4 @@ class OrderCompletionDialog extends StatelessWidget {
 
 
 
-Widget _buildSidebarDrawer() {
-  return Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.black,
-          ),
-          child: Text(
-            'Menu',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-            ),
-          ),
-        ),
-        ListTile(
-          leading: Icon(Icons.person),
-          title: Text('Profile'),
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Vehicaldata()),
-            // );
-          },
-        ),
 
-
-
-        ListTile(
-          leading: Icon(Icons.logout),
-          title: Text('Logout'),
-          onTap: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Vehicaldata()),
-            // );
-          },
-        ),
-        // Add more sidebar items as needed
-      ],
-    ),
-  );
-}
