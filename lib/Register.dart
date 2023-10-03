@@ -250,7 +250,7 @@ class _RegisterState extends State<Register> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Register As mechanic? ",
+                      "Register As Driver? ",
                     ),
                     GestureDetector(
                       onTap: () {
