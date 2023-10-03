@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_taxi/Customer/Customermap.dart';
+import 'package:mr_taxi/Register.dart';
 import 'package:mr_taxi/Rider/Riderdashboard.dart';
 import 'package:mr_taxi/Rider/Vehicaldata.dart';
 
@@ -217,18 +218,31 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Not a member? .'),
-                    Text(
-                      "Not a member? .",
-                      style: TextStyle(
-                        color: Color.fromRGBO(47, 114, 100, 1),
-                        fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Register As Driver? ",
                       ),
-                    ),
-                  ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Register()),
+                          );
+                        },
+                        child: Text(
+                          "Sign In",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 SizedBox(
