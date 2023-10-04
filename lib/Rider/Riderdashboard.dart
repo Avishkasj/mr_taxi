@@ -59,7 +59,7 @@ class _RiderdashboardState extends State<Riderdashboard> {
   double currentAmount = 0.0;
   late int orderCount =0;
   List<Map<String, dynamic>> orders = [];
-
+late GeoPoint gl;
 
   // Function to fetch data from Firestore
   Future<void> fetchOrders() async {
@@ -83,6 +83,8 @@ class _RiderdashboardState extends State<Riderdashboard> {
             // Attempt to parse the selectedCardData string into a Map
             Map<String, dynamic> selectedCardData =
             json.decode(orderData['selectedCardData']);
+            gl = orderData['currentLocation'];
+
 
             // Update the userId field in the selectedCardData
             selectedCardData['userId'] = currentUserId;
