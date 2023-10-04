@@ -122,41 +122,6 @@ class _OrderviewState extends State<Orderview> {
             ),
 
 
-            // Container(
-            // color: Colors.black,
-            //   child: Padding(
-            //     padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-            //     child: Container(
-            //       height: 160, // Adjust the height as needed
-            //       child: GoogleMap(
-            //         initialCameraPosition: CameraPosition(
-            //           target: LatLng(
-            //             widget.currentLocation?.latitude ?? 0.0, // Use a default value if null
-            //             widget.currentLocation?.longitude ?? 0.0,
-            //           ), // Initial map center coordinates
-            //           zoom: 12.0, // Initial zoom level
-            //         ),
-            //         markers: Set<Marker>.from([
-            //           Marker(
-            //             markerId: MarkerId("marker_1"),
-            //             position: LatLng(
-            //               widget.searchLocation?.latitude ?? 0.0, // Use a default value if null
-            //               widget.searchLocation?.longitude ?? 0.0,
-            //             ), // Marker coordinates
-            //             infoWindow: InfoWindow(
-            //               title: "Destination",
-            //               snippet: "Your destination",
-            //             ),
-            //           ),
-            //         ]),
-            //         onMapCreated: (GoogleMapController controller) {
-            //           // Controller to interact with the map
-            //           // You can store it in a variable to use it later.
-            //         },
-            //       ),
-            //     ),
-            //   ),
-            // ),
             SizedBox(height: 10,),
 
             Padding(
@@ -217,49 +182,6 @@ class _OrderviewState extends State<Orderview> {
             ),
 
 
-
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-            //   child: Container(
-            //     color: Color.fromRGBO(254, 206, 12, 1.0),
-            //     child: Row(
-            //       children: <Widget>[
-            //         Expanded(
-            //           child: Row(
-            //             children: [
-            //               Icon(Icons.add_task_rounded,size: 60,),
-            //               Container(
-            //                 child: Padding(
-            //                   padding: const EdgeInsets.all(8.0),
-            //                   child: Center(
-            //                     child: Padding(
-            //                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-            //                       child: Column(
-            //                        crossAxisAlignment: CrossAxisAlignment.start,
-            //                         children: [
-            //                           Text(
-            //                             'Please Wait d. . .',
-            //                             style: TextStyle(fontSize: 24, ),
-            //                             // Add your desired style
-            //                           ),
-            //                           Text(
-            //                             'Waiting For Driver Accept',
-            //                             style: TextStyle(fontSize: 18, ),
-            //                             // Add your desired style
-            //                           ),
-            //                         ],
-            //                       ),
-            //                     ),
-            //                   ),
-            //                 ),
-            //               ),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
 
 
             Padding(
@@ -369,18 +291,7 @@ class _OrderviewState extends State<Orderview> {
                       style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
                     ),
 
-                    // Text(
-                    //   'Driver ${widget.selectedCardData['userId']}',
-                    //   style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
-                    // ),
-                    // Text(
-                    //   'Current Location ${widget.currentLocation}',
-                    //   style: TextStyle(fontSize: 22,color: Colors.white), // Add your desired style
-                    // ),
-                    // Text(
-                    //   'Search Location ${widget.searchLocation}',
-                    //   style: TextStyle(fontSize: 22,color: Colors.white),// Add your desired style
-                    // ),
+
 
 
                   ],
