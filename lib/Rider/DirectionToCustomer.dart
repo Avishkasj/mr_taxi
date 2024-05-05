@@ -214,9 +214,9 @@ class _RiderDashboardPageState extends State<RiderDashboardPage> {
                     MaterialPageRoute(builder: (context) => Riderdashboard()),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.yellow, // Set the background color to yellow
-                ),
+                // style: ElevatedButton.styleFrom(
+                //   primary: Colors.yellow, // Set the background color to yellow
+                // ),
                 child: Text(
                   'Go To Dashboard',
                   style: TextStyle(color: Colors.black),

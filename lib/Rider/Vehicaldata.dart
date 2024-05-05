@@ -253,9 +253,9 @@ class _VehicaldataState extends State<Vehicaldata> {
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.black, // Change the color as needed
-                ),
+                // style: ElevatedButton.styleFrom(
+                //   primary: Colors.black, // Change the color as needed
+                // ),
                 onPressed: _updateProfile,
                 child: Text('Add'),
               ),

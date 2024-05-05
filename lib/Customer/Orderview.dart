@@ -170,9 +170,9 @@ class _OrderviewState extends State<Orderview> {
 
 
                   },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.yellow, // Set the background color to yellow
-                  ),
+                  // style: ElevatedButton.styleFrom(
+                  //   primary: Colors.yellow, // Set the background color to yellow
+                  // ),
                   child: Text(
                     'Order Complete',
                     style: TextStyle(color: Colors.black),

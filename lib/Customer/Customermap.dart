@@ -174,9 +174,9 @@ class _CustomermapState extends State<Customermap> {
                     padding: EdgeInsets.all(8.0),
                     child: ElevatedButton.icon(
                       onPressed: getCurrentLocation,
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black, // Set the background color to black
-                      ),
+                      // style: ElevatedButton.styleFrom(
+                      //   primary: Colors.black, // Set the background color to black
+                      // ),
                       icon: Icon(Icons.my_location),
                       label: Text('Get Current Location'),
                     ),
@@ -210,9 +210,9 @@ class _CustomermapState extends State<Customermap> {
                         searchLocation2();
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.black, // Set the background color to yellow
-                    ),
+                    // style: ElevatedButton.styleFrom(
+                    //   primary: Colors.black, // Set the background color to yellow
+                    // ),
                     child: Text('Search'),
                   ),
                 ],
@@ -323,9 +323,9 @@ class _CustomermapState extends State<Customermap> {
                               });
                         }
                 },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.yellow, // Set the background color to yellow
-                ),
+                // style: ElevatedButton.styleFrom(
+                //   primary: Colors.yellow, // Set the background color to yellow
+                // ),
                 child: Text(
                   'Book Now ' + " "+formattedDistance+"KM",
                   style: TextStyle(color: Colors.black),

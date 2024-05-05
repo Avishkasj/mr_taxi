@@ -284,9 +284,9 @@ late GeoPoint gl;
                                 'View Details',
                                 style: TextStyle(color: Colors.black),
                               ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Color.fromRGBO(254, 206, 12, 1.0),
-                              ),
+                              // style: ElevatedButton.styleFrom(
+                              //   primary: Color.fromRGBO(254, 206, 12, 1.0),
+                              // ),
                             ),
                           );
                         },
@@ -377,9 +377,9 @@ late GeoPoint gl;
                           //Close the modal
 
                         },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.red, // Change the color as needed
-                        ),
+                        // style: ElevatedButton.styleFrom(
+                        //   primary: Colors.red, // Change the color as needed
+                        // ),
                         child: Text(
                           'Cancel',
                           style: TextStyle(fontSize: 16),
@@ -457,9 +457,9 @@ late GeoPoint gl;
                           );// Close the modal
 
                         },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.black, // Change the color as needed
-                        ),
+                        // style: ElevatedButton.styleFrom(
+                        //   primary: Colors.black, // Change the color as needed
+                        // ),
                         child: Text(
                           'Accept',
                           style: TextStyle(fontSize: 16),
